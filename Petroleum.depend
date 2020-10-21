@@ -1,0 +1,125 @@
+# depslib dependency file v1.0
+1596451870 source:/home/matthias/Projets/Petroleum/Main.cpp
+	"gl/Window.h"
+	"gl/Renderer.h"
+	"gl/VertexArray.h"
+	"gl/VertexBuffer.h"
+	"gl/IndexBuffer.h"
+	"gl/VertexBufferLayout.h"
+	"gl/Texture.h"
+	"gl/Shader.h"
+	"other/ErrorFeedback.h"
+	"other/FileManagement.h"
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/Window.h
+	<GLFW/glfw3.h>
+	<gl/Input.h>
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/Input.h
+
+1603310351 source:/home/matthias/Projets/Petroleum/src/gl/Window.cpp
+	"gl/Window.h"
+	"other/Common.h"
+	<cstdio>
+	<ctime>
+	<string>
+	<GL/glew.h>
+
+1603310363 source:/home/matthias/Projets/Petroleum/src/gl/Renderer.cpp
+	"gl/Renderer.h"
+	"other/Common.h"
+	<GL/glew.h>
+	<cstdio>
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/Renderer.h
+	"gl/VertexArray.h"
+	"gl/IndexBuffer.h"
+	"gl/Shader.h"
+
+1596382359 source:/home/matthias/Projets/Petroleum/src/gl/VertexBufferLayout.cpp
+	"gl/VertexBufferLayout.h"
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/VertexBufferLayout.h
+	<vector>
+	"GL/glew.h"
+
+1603310207 source:/home/matthias/Projets/Petroleum/src/gl/VertexBuffer.cpp
+	"gl/VertexBuffer.h"
+	<GL/glew.h>
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/VertexBuffer.h
+	<vector>
+
+1603310170 source:/home/matthias/Projets/Petroleum/src/gl/VertexArray.cpp
+	"gl/VertexArray.h"
+	<GL/glew.h>
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/VertexArray.h
+	"gl/VertexBuffer.h"
+	"gl/VertexBufferLayout.h"
+
+1596451870 source:/home/matthias/Projets/Petroleum/src/gl/Shader.cpp
+	"gl/Shader.h"
+	<GL/glew.h>
+	<iostream>
+	<fstream>
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/Shader.h
+	<string>
+	<unordered_map>
+	<glm/glm.hpp>
+
+1603309936 source:/home/matthias/Projets/Petroleum/src/other/ErrorFeedback.cpp
+	"other/ErrorFeedback.h"
+	<GL/glew.h>
+	<iostream>
+
+1596451870 /home/matthias/Projets/Petroleum/include/other/ErrorFeedback.h
+
+1603310218 source:/home/matthias/Projets/Petroleum/src/other/FileManagement.cpp
+	"other/FileManagement.h"
+	<limits.h>
+	<unistd.h>
+	<sys/stat.h>
+
+1596451870 /home/matthias/Projets/Petroleum/include/other/FileManagement.h
+	<string>
+
+1596451870 source:/home/matthias/Projets/Petroleum/src/vendor/stb_image/stb_image.cpp
+	"vendor/stb_image/stb_image.h"
+
+1596451870 /home/matthias/Projets/Petroleum/include/vendor/stb_image/stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1603310376 source:/home/matthias/Projets/Petroleum/src/gl/Texture.cpp
+	"gl/Texture.h"
+	<GL/glew.h>
+	"vendor/stb_image/stb_image.h"
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/Texture.h
+	"Renderer.h"
+	<string>
+
+1603310187 source:/home/matthias/Projets/Petroleum/src/gl/IndexBuffer.cpp
+	"gl/IndexBuffer.h"
+	<GL/glew.h>
+
+1596451870 /home/matthias/Projets/Petroleum/include/gl/IndexBuffer.h
+	<vector>
+
+1603310310 /home/matthias/Projets/Petroleum/include/other/Common.h
+

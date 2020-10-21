@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Petroleum" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Petroleum" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Og" />
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Petroleum" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Ofast" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-m64" />
+			<Add option="-fexceptions" />
+			<Add option="-march=native" />
+			<Add option="-pipe" />
+		</Compiler>
+		<Linker>
+			<Add option="-m64" />
+			<Add option="-lglfw -lGLEW -lX11 -lGLU -lGL" />
+		</Linker>
+		<Unit filename="include/gl/IndexBuffer.h" />
+		<Unit filename="include/gl/Input.h" />
+		<Unit filename="include/gl/Renderer.h" />
+		<Unit filename="include/gl/Shader.h" />
+		<Unit filename="include/gl/Texture.h" />
+		<Unit filename="include/gl/VertexArray.h" />
+		<Unit filename="include/gl/VertexBuffer.h" />
+		<Unit filename="include/gl/VertexBufferLayout.h" />
+		<Unit filename="include/gl/Window.h" />
+		<Unit filename="include/other/Common.h" />
+		<Unit filename="include/other/ErrorFeedback.h" />
+		<Unit filename="include/other/FileManagement.h" />
+		<Unit filename="include/vendor/stb_image/stb_image.h" />
+		<Unit filename="src/gl/IndexBuffer.cpp" />
+		<Unit filename="src/gl/Renderer.cpp" />
+		<Unit filename="src/gl/Shader.cpp" />
+		<Unit filename="src/gl/Texture.cpp" />
+		<Unit filename="src/gl/VertexArray.cpp" />
+		<Unit filename="src/gl/VertexBuffer.cpp" />
+		<Unit filename="src/gl/Window.cpp" />
+		<Unit filename="src/other/ErrorFeedback.cpp" />
+		<Unit filename="src/other/FileManagement.cpp" />
+		<Unit filename="src/shaders/BasicFragment.glsl" />
+		<Unit filename="src/shaders/BasicGreyscaleFragment.glsl" />
+		<Unit filename="src/shaders/BasicGreyscaleVertex.glsl" />
+		<Unit filename="src/shaders/BasicRGBAFragment.glsl" />
+		<Unit filename="src/shaders/BasicRGBAVertex.glsl" />
+		<Unit filename="src/shaders/BasicRGBFragment.glsl" />
+		<Unit filename="src/shaders/BasicRGBVertex.glsl" />
+		<Unit filename="src/shaders/BasicTexFragment.glsl" />
+		<Unit filename="src/shaders/BasicTexRGBAFragment.glsl" />
+		<Unit filename="src/shaders/BasicTexRGBAVertex.glsl" />
+		<Unit filename="src/shaders/BasicTexVertex.glsl" />
+		<Unit filename="src/shaders/BasicVertex.glsl" />
+		<Unit filename="src/vendor/stb_image/stb_image.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
