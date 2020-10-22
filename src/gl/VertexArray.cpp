@@ -1,7 +1,7 @@
-#include "gl/VertexArray.h"
+#include "../../Petroleum.h"
 
-#include <GL/glew.h>
-
+namespace PT
+{
 
 VertexArray::VertexArray()
 {
@@ -40,4 +40,5 @@ void VertexArray::unbindArray() const
 VertexArray::~VertexArray()
 {
     glDeleteVertexArrays(1, &vaoID);
+}
 }

@@ -1,7 +1,7 @@
-#include "gl/VertexBuffer.h"
+#include "../../Petroleum.h"
 
-#include <GL/glew.h>
-
+namespace PT
+{
 
 VertexBuffer::VertexBuffer(const std::vector<float>& data)
 {
@@ -36,4 +36,5 @@ void VertexBuffer::unbindBuffer() const
 VertexBuffer::~VertexBuffer()
 {
     glDeleteBuffers(1, &vboID);
+}
 }

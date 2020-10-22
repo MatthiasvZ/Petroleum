@@ -1,8 +1,7 @@
-#include "gl/Texture.h"
+#include "../../Petroleum.h"
 
-#include <GL/glew.h>
-#include "vendor/stb_image/stb_image.h"
-
+namespace PT
+{
 
 Texture::Texture(const std::string& path, const unsigned int& slot)
     : texID(slot), filePath(path), localBuffer(nullptr),
@@ -39,4 +38,5 @@ void Texture::unbindTexture() const
 Texture::~Texture()
 {
     glDeleteTextures(1, &texID);
+}
 }

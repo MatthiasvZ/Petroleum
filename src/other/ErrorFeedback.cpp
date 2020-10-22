@@ -1,7 +1,4 @@
-#include "other/ErrorFeedback.h"
-
-#include <GL/glew.h>
-#include <iostream>
+#include "../../Petroleum.h"
 
 namespace PT
 {

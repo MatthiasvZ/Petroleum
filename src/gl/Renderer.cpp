@@ -1,10 +1,7 @@
-#include "gl/Renderer.h"
+#include "../../Petroleum.h"
 
-#include "other/Common.h"
-
-#include <GL/glew.h>
-#include <cstdio>
-
+namespace PT
+{
 
 Renderer::Renderer()
 {
@@ -69,4 +66,4 @@ Renderer::~Renderer()
 {
     //dtor
 }
-
+}

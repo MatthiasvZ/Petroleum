@@ -1,16 +1,11 @@
-#include "gl/Window.h"
+#include "../../Petroleum.h"
 
-#include "other/Common.h"
-
-#include <cstdio>
-#include <ctime>
-#include <string>
-#include <GL/glew.h>
-
+namespace PT
+{
 
 void errorCallback(int error, const char* description)
 {
-    fprintf(stderr, "Error (%d): %s\n", error, description);
+    fprintf(stderr, "(Petroleum) GLFW Error (%d): %s\n", error, description);
 }
 
 Input input; // GLFW SUCKS!
@@ -93,15 +88,15 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 
 
 Window::Window()
-    : fps{0}, seconds{0}, avg_fps{0}, tn{time(0)}, ta{tn}
+    : fps{0}, seconds{0}, avg_fps{0}, last_fps{0}, tn{time(0)}, ta{tn}, title{"OpenGL"}
 {
     if (!glfwInit())
     {
-        fprintf(stderr, "ERROR: Problem initialising GLFW!\n");
+        fprintf(stderr, "(Petroleum) ERROR: Problem initialising GLFW!\n");
     }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
@@ -111,12 +106,12 @@ Window::Window()
         glfwWindowHint(GLFW_SAMPLES, PT_MSAA);
     #endif // PT_MSAA
 
-    window = glfwCreateWindow(800, 800, "OpenGL FPS = 0", nullptr, nullptr);
+    window = glfwCreateWindow(800, 800, (title + " FPS = 0").c_str(), nullptr, nullptr);
 
     if (!window)
     {
         glfwTerminate();
-        fprintf(stderr, "ERROR: Couldn't create window!\n");
+        fprintf(stderr, "(Petroleum) ERROR: Couldn't create window!\n");
     }
 
     glfwMakeContextCurrent(window);
@@ -124,7 +119,7 @@ Window::Window()
     glfwSetKeyCallback(window, keyCallback);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
-    glfwSwapInterval(PT_V_SYNC); // 1 = v-sync 0 = off
+    glfwSwapInterval(PT_VSYNC); // 1 = v-sync 0 = off
 }
 
 bool Window::shouldRun() const
@@ -145,9 +140,10 @@ void Window::update()
     if (time(&tn) != ta)
     {
         ta++;
-        changeTitle(("OpenGL FPS = " + std::to_string(fps)).c_str());
+        glfwSetWindowTitle(window, (title + " FPS = " + std::to_string(fps)).c_str());
         avg_fps += fps;
         seconds++;
+        last_fps = fps;
         fps = 0;
     }
     fps++;
@@ -156,13 +152,16 @@ void Window::update()
     glfwPollEvents();
 }
 
-void Window::changeTitle(const char* newTitle) const
+void Window::changeTitle(const std::string newTitle)
 {
-    glfwSetWindowTitle(window, newTitle);
+    title = newTitle;
+    glfwSetWindowTitle(window, (title + " FPS = " + std::to_string(last_fps)).c_str());
 }
 
 
 Window::~Window()
 {
     glfwTerminate();
+}
+
 }

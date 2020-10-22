@@ -1,7 +1,7 @@
-#include "gl/IndexBuffer.h"
+#include "../../Petroleum.h"
 
-#include <GL/glew.h>
-
+namespace PT
+{
 
 IndexBuffer::IndexBuffer(const std::vector<unsigned int>& data)
     : dataType {GL_UNSIGNED_INT}, count {data.size()}
@@ -83,4 +83,4 @@ IndexBuffer::~IndexBuffer()
 {
     glDeleteBuffers(1, &iboID);
 }
-
+}

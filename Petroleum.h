@@ -2,37 +2,108 @@
 #define PETROLEUM_H
 
 
-#include <iostream>
+#include <algorithm>
+#include <climits>
+#include <cstdio>
+#include <ctime>
+#include <cstring>
 #include <fstream>
+#include <iostream>
 #include <string>
-#include <vector>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <unordered_map>
+#include <vector>
 
 #include <GL/glew.h>
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 #include "stb_image.h"
-
-
-#define PT_V_SYNC 0
-#define PT_MSAA 4
+#include <glm/glm.hpp>
 
 
 
+#define PT_VSYNC 0
+#define PT_MSAA 8
+
+#define PT_SHADER_XY 0
+#define PT_SHADER_XYUV 1
+#define PT_SHADER_XYA 2
+#define PT_SHADER_XYAUV 3
+#define PT_SHADER_XYB 4
+#define PT_SHADER_XYBUV 5
+#define PT_SHADER_XYRGB 6
+#define PT_SHADER_XYRGBUV 7
+#define PT_SHADER_XYRGBA 8
+#define PT_SHADER_XYRGBAUV 9
+
+
+namespace PT
+{
+
+// CORE
+void init();
+
+
+// FILE MANAGEMENT
+void setDataDir(const char* directory);
+void createDataFolder(const char* directory);
+void createFolder(const char* directory);
+std::string getDir();
+struct Config
+{
+    bool vsync;
+    unsigned int msaa;
+    bool fullscreen;
+};
+Config parseConfig();
+
+
+// ERROR HANDLING
 void clearErrors();
 void getErrors();
 
 
-class FileManagement
+struct Input
+{
+        bool ctrlHeld {false};
+        bool spaceHeld {false};
+        bool shiftHeld {false};
+        bool wHeld {false};
+        bool aHeld {false};
+        bool sHeld {false};
+        bool dHeld {false};
+        bool downHeld {false};
+        bool leftHeld {false};
+        bool rightHeld {false};
+        bool upHeld {false};
+        bool kp2Held {false};
+        bool kp4Held {false};
+        bool kp5Held {false};
+        bool kp6Held {false};
+        bool kp8Held {false};
+};
+
+
+class Window
 {
     public:
-        static void setWorkingDir();
-        static void createFolders();
+        Window();
+        bool shouldRun() const;
+        const Input& getInputs() const;
+        void update();
+        void changeTitle(const std::string newTitle);
+
+        virtual ~Window();
 
     protected:
 
     private:
-        static std::string getDir();
+        GLFWwindow* window;
+
+        int fps, seconds, avg_fps, last_fps;
+        long int tn, ta;
+        std::string title;
 };
 
 
@@ -136,48 +207,6 @@ class VertexArray
 };
 
 
-struct Input
-{
-        bool ctrlHeld {false};
-        bool spaceHeld {false};
-        bool shiftHeld {false};
-        bool wHeld {false};
-        bool aHeld {false};
-        bool sHeld {false};
-        bool dHeld {false};
-        bool downHeld {false};
-        bool leftHeld {false};
-        bool rightHeld {false};
-        bool upHeld {false};
-        bool kp2Held {false};
-        bool kp4Held {false};
-        bool kp5Held {false};
-        bool kp6Held {false};
-        bool kp8Held {false};
-};
-
-
-class Window
-{
-    public:
-        Window();
-        bool shouldRun() const;
-        const Input& getInputs() const;
-        void update();
-        void changeTitle(const char* newTitle) const;
-
-        ~Window();
-
-    protected:
-
-    private:
-        GLFWwindow* window;
-
-        int fps, seconds, avg_fps;
-        long int tn, ta;
-};
-
-
 struct SourcePackage
 {
     std::string vertex;
@@ -190,6 +219,7 @@ class Shader
     public:
         static std::string readFromFile(const char* filePath);
 
+        Shader(unsigned int shaderName);
         Shader(SourcePackage srcpkg);
         ~Shader();
 
@@ -255,6 +285,8 @@ class Renderer
 
     private:
 };
+
+}
 
 
 #endif // PETROLEUM_H

@@ -1,9 +1,7 @@
-#include "gl/Shader.h"
+#include "../../Petroleum.h"
 
-#include <GL/glew.h>
-#include <iostream>
-#include <fstream>
-
+namespace PT
+{
 
 std::string Shader::readFromFile(const char* filePath)
 {
@@ -20,6 +18,25 @@ std::string Shader::readFromFile(const char* filePath)
     }
     fprintf(stderr, "Couldn't read in shader file '%s'\n", filePath);
     return "";
+}
+
+Shader::Shader(unsigned int shaderName)
+{
+    #include "../../include/DefaultShaders.h"
+    programID = glCreateProgram();
+    unsigned int vertexShader = compileShader(vertSources[shaderName].c_str(), GL_VERTEX_SHADER);
+    unsigned int fragmentShader = compileShader(fragSources[shaderName].c_str(), GL_FRAGMENT_SHADER);
+
+    glAttachShader(programID, vertexShader);
+    glAttachShader(programID, fragmentShader);
+
+    glBindFragDataLocation(programID, 0, "outColour");
+
+    glLinkProgram(programID);
+    glValidateProgram(programID);
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 }
 
 Shader::Shader(SourcePackage srcpkg)
@@ -144,4 +161,4 @@ Shader::~Shader()
 {
     glDeleteShader(programID);
 }
-
+}
