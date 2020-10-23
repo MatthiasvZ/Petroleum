@@ -1,7 +1,5 @@
 #include "../../Petroleum.h"
 
-#define LENGTH_OF_EXEC_NAME 16
-
 namespace PT
 {
 
@@ -40,6 +38,12 @@ void createDataFolder(const char* directory)
         cfg << "# Editing of this file should usally be done by, or using, the overlying game.\n";
         cfg << "# Whitespace and lines starting with hash symbols will be ignored.\n";
         cfg << "\n";
+        cfg << "# OpenGL Version X.x\n";
+        cfg << "opengl_major = 4\n";
+        cfg << "\n";
+        cfg << "# OpenGL Version x.X\n";
+        cfg << "opengl_minor = 0\n";
+        cfg << "\n";
         cfg << "# Use v-sync (0 – 1)\n";
         cfg << "vsync = 0\n";
         cfg << "\n";
@@ -66,16 +70,16 @@ void createFolder(const char* directory)
 Config parseConfig()
 {
     Config result;
+    result.opengl_major = 4;
+    result.opengl_minor = 0;
+    result.vsync = 0;
+    result.msaa = 4;
+    result.fullscreen = 0;
 
     std::fstream cfg;
     cfg.open("ptconfig");
     if (!cfg.is_open())
-    {
         fprintf(stderr, "(Petroleum) ERROR: Couldn't access config file! Trying to use defaults instead...\n");
-        result.vsync = 0;
-        result.msaa = 4;
-        result.fullscreen = 0;
-    }
     else
     {
         std::string line;
@@ -92,8 +96,39 @@ Config parseConfig()
             auto name = line.substr(0, delimiterPos);
             auto value = line.substr(delimiterPos + 1);
 
+            if (name == "opengl_major")
+            {
+                try
+                {
+                    result.opengl_major = std::stoul(value);
+                }
+                catch (std::invalid_argument const &e)
+                {
+                    fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
+                }
+                catch (std::out_of_range const &e)
+                {
+                fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
+                }
+            }
 
-            if (name == "vsync")
+            else if (name == "opengl_minor")
+            {
+                try
+                {
+                    result.opengl_minor = std::stoul(value);
+                }
+                catch (std::invalid_argument const &e)
+                {
+                    fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
+                }
+                catch (std::out_of_range const &e)
+                {
+                fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
+                }
+            }
+
+            else if (name == "vsync")
             {
                 if (value == "0")
                     result.vsync = false;
@@ -136,20 +171,11 @@ Config parseConfig()
             }
 
             else
-                fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid config name in ptconfig (line %d)...\n", linenum);
+                fprintf(stderr, "(Petroleum) WARNING: Ignoring unknown config name in ptconfig (line %d)...\n", linenum);
         } //end-bracket of while
 
     }
     return result;
-}
-
-std::string getDir()
-{
-    char result[ PATH_MAX ];
-    ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
-    std::string sresult( result, (count > 0) ? count : 0 );
-    sresult.erase(sresult.end() - (4 + LENGTH_OF_EXEC_NAME), sresult.end());
-    return sresult;
 }
 
 }

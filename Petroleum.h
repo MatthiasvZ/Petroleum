@@ -49,12 +49,13 @@ void init();
 void setDataDir(const char* directory);
 void createDataFolder(const char* directory);
 void createFolder(const char* directory);
-std::string getDir();
 struct Config
 {
     bool vsync;
     unsigned int msaa;
     bool fullscreen;
+    unsigned int opengl_major;
+    unsigned int opengl_minor;
 };
 Config parseConfig();
 

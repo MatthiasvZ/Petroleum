@@ -90,8 +90,16 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 Window::Window()
     : fps{0}, seconds{0}, avg_fps{0}, last_fps{0}, tn{time(0)}, ta{tn}, title{"OpenGL"}
 {
-    this->init();
+    if (!glfwInit())
+    {
+        fprintf(stderr, "(Petroleum) ERROR: Problem initialising GLFW!\n");
+    }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_SAMPLES, 4);
+
+    this->init();
 
     glfwSwapInterval(0); // 1 = v-sync 0 = off
 }
@@ -99,10 +107,18 @@ Window::Window()
 Window::Window(Config cfg)
     : fps{0}, seconds{0}, avg_fps{0}, last_fps{0}, tn{time(0)}, ta{tn}, title{"OpenGL"}
 {
-    this->init();
+    if (!glfwInit())
+    {
+        fprintf(stderr, "(Petroleum) ERROR: Problem initialising GLFW!\n");
+    }
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, cfg.opengl_major);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, cfg.opengl_minor);
     if (cfg.msaa)
         glfwWindowHint(GLFW_SAMPLES, cfg.msaa);
+
+    this->init();
+
     glfwSwapInterval(cfg.vsync); // 1 = v-sync 0 = off
 
     if (cfg.fullscreen)
@@ -115,13 +131,6 @@ Window::Window(Config cfg)
 
 void Window::init()
 {
-    if (!glfwInit())
-    {
-        fprintf(stderr, "(Petroleum) ERROR: Problem initialising GLFW!\n");
-    }
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 

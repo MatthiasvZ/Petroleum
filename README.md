@@ -72,4 +72,10 @@ int main()
 }
 ```
 ## Licence
-The parts written by me are available under the Unlicence. **Note that the above-listed libaries have their own licences, causing this program's use to be restricted by the following open-source licences: zlib/libpng, BSD, MIT.**
+This program is available under the Unlicense. The same applies for stb-image.h.
+
+**Note that GLFW and GLEW have their own licences, causing this
+program's compiled use when linked with GLFW and GLEW to be restricted by the
+following open-source licences: zlib/libpng, BSD, MIT. These licences
+will not be included in this repository, since the respective
+programs aren't either.**
