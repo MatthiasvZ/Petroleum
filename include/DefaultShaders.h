@@ -185,171 +185,159 @@ void main()
 std::vector<std::string> fragSources
 {
 
-// vertXY
+// fragXY
 R"glsl(
 #version 400 core
 
-in vec2 position;
+out vec4 outColour;
 
 void main()
 {
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 )glsl",
 
-// vertXYUV
+// fragXYUV
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in vec2 texCoords;
+in vec2 f_TexCoords;
 
-out vec2 f_TexCoords;
+out vec4 outColour;
+
+uniform sampler2D texSlot;
 
 void main()
 {
-    f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = texture(texSlot, f_TexCoords);
 }
 )glsl",
 
-// vertXYA
+// fragXYA
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in float alpha;
+in float f_Alpha;
 
-out float f_Alpha;
+out vec4 outColour;
 
 void main()
 {
-    f_Alpha = alpha;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = vec4(1.0f, 1.0f, 1.0f, f_Alpha);
 }
 )glsl",
 
-// vertXYAUV
+// fragXYAUV
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in float alpha;
-in vec2 texCoords;
+in float f_Alpha;
+in vec2 f_TexCoords;
 
-out float f_Alpha;
-out vec2 f_TexCoords;
+out vec4 outColour;
+
+uniform sampler2D texSlot;
 
 void main()
 {
-    f_Alpha = alpha;
-    f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = texture(texSlot, f_TexCoords) *
+    vec4(1.0f, 1.0f, 1.0f, f_Alpha);
 }
 )glsl",
 
-// vertXYB
+// fragXYB
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in float brightness;
+in float f_Brightness;
 
-out float f_Brightness;
+out vec4 outColour;
 
 void main()
 {
-    f_Brightness = brightness;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = vec4(f_Brightness, f_Brightness, f_Brightness, 1.0f);
 }
 )glsl",
 
-// vertXYBUV
+// fragXYBUV
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in float brightness;
-in vec2 texCoords;
+in float f_Brightness;
+in vec2 f_TexCoords;
 
-out float f_Brightness;
-out vec2 f_TexCoords;
+out vec4 outColour;
+
+uniform sampler2D texSlot;
 
 void main()
 {
-    f_Brightness = brightness;
-    f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = texture(texSlot, f_TexCoords) *
+    vec4(f_Brightness, f_Brightness, f_Brightness, 1.0f);
 }
 )glsl",
 
-// vertXYRGB
+// fragXYRGB
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in vec3 colour;
+in vec3 f_Colour;
 
-out vec3 f_Colour;
+out vec4 outColour;
 
 void main()
 {
-    f_Colour = colour;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = vec4(f_Colour.r, f_Colour.g, f_Colour.b, 1.0f);
 }
 )glsl",
 
-// vertXYRGBUV
+// fragXYRGBUV
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in vec3 colour;
-in vec2 texCoords;
+in vec2 f_TexCoords;
+in vec3 f_Colour;
 
-out vec3 f_Colour;
-out vec2 f_TexCoords;
+out vec4 outColour;
+
+uniform sampler2D texSlot;
 
 void main()
 {
-    f_Colour = colour;
-    f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = texture(texSlot, f_TexCoords) *
+    vec4(f_Colour.r, f_Colour.g, f_Colour.b, 1.0f);
 }
 )glsl",
 
-// vertXYRGBA
+// fragXYRGBA
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in vec4 colour;
+in vec4 f_Colour;
 
-out vec4 f_Colour;
+out vec4 outColour;
 
 void main()
 {
-    f_Colour = colour;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = vec4(f_Colour.r, f_Colour.g, f_Colour.b, f_Colour.a);
 }
 )glsl",
 
-// vertXYRGBAUV
+// fragXYRGBAUV
 R"glsl(
 #version 400 core
 
-in vec2 position;
-in vec4 colour;
-in vec2 texCoords;
+in vec2 f_TexCoords;
+in vec4 f_Colour;
 
-out vec4 f_Colour;
-out vec2 f_TexCoords;
+out vec4 outColour;
+
+uniform sampler2D texSlot;
 
 void main()
 {
-    f_Colour = colour;
-    f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    outColour = texture(texSlot, f_TexCoords) *
+    vec4(f_Colour.r, f_Colour.g, f_Colour.b, f_Colour.a);
 }
 )glsl"
 

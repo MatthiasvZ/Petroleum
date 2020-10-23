@@ -9,10 +9,10 @@ void errorCallback(int error, const char* description)
 }
 
 Input input; // GLFW SUCKS!
+bool fullscreen;
+int windowPosX, windowPosY;
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    static bool fullscreen;
-    static int windowPosX, windowPosY;
     if (action == GLFW_PRESS)
     {
         switch (key)
@@ -90,6 +90,31 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 Window::Window()
     : fps{0}, seconds{0}, avg_fps{0}, last_fps{0}, tn{time(0)}, ta{tn}, title{"OpenGL"}
 {
+    this->init();
+    glfwWindowHint(GLFW_SAMPLES, 4);
+
+    glfwSwapInterval(0); // 1 = v-sync 0 = off
+}
+
+Window::Window(Config cfg)
+    : fps{0}, seconds{0}, avg_fps{0}, last_fps{0}, tn{time(0)}, ta{tn}, title{"OpenGL"}
+{
+    this->init();
+
+    if (cfg.msaa)
+        glfwWindowHint(GLFW_SAMPLES, cfg.msaa);
+    glfwSwapInterval(cfg.vsync); // 1 = v-sync 0 = off
+
+    if (cfg.fullscreen)
+    {
+        glfwGetWindowPos(window, &windowPosX, &windowPosY);
+        glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 1920, 1080, GLFW_DONT_CARE);
+        fullscreen = true;
+    }
+}
+
+void Window::init()
+{
     if (!glfwInit())
     {
         fprintf(stderr, "(Petroleum) ERROR: Problem initialising GLFW!\n");
@@ -101,10 +126,6 @@ Window::Window()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-    #if PT_MSAA
-        glfwWindowHint(GLFW_SAMPLES, PT_MSAA);
-    #endif // PT_MSAA
 
     window = glfwCreateWindow(800, 800, (title + " FPS = 0").c_str(), nullptr, nullptr);
 
@@ -118,8 +139,6 @@ Window::Window()
 
     glfwSetKeyCallback(window, keyCallback);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-
-    glfwSwapInterval(PT_VSYNC); // 1 = v-sync 0 = off
 }
 
 bool Window::shouldRun() const

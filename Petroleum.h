@@ -89,6 +89,7 @@ class Window
 {
     public:
         Window();
+        Window(Config cfg);
         bool shouldRun() const;
         const Input& getInputs() const;
         void update();
@@ -100,6 +101,7 @@ class Window
 
     private:
         GLFWwindow* window;
+        void init();
 
         int fps, seconds, avg_fps, last_fps;
         long int tn, ta;
