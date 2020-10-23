@@ -22,7 +22,8 @@ The following open-source libraries are used:
 - **stb-image** for reading in images such as textures
 ## Examples
 ### Drawing a coloured rectangle
-```#include "../Petroleum/Petroleum.h"
+```
+#include "Petroleum.h"
 
 int main()
 {
