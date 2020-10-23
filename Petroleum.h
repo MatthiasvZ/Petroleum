@@ -61,8 +61,8 @@ Config parseConfig();
 
 
 // ERROR HANDLING
-void clearErrors();
-void getErrors();
+void clearGlErrors();
+void getGlErrors();
 
 
 struct Input

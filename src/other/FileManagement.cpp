@@ -67,6 +67,33 @@ void createFolder(const char* directory)
     }
 }
 
+
+inline void setBool(bool& setting, std::string& value, unsigned int& linenum)
+{
+    if (value == "0")
+        setting = false;
+    else if (value == "1")
+        setting = true;
+    else
+        fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
+}
+
+inline void setUInt(unsigned int& setting, std::string& value, unsigned int& linenum)
+{
+    try
+    {
+        setting = std::stoul(value);
+    }
+    catch (std::invalid_argument const &e)
+    {
+        fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
+    }
+    catch (std::out_of_range const &e)
+    {
+        fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
+    }
+}
+
 Config parseConfig()
 {
     Config result;
@@ -97,82 +124,18 @@ Config parseConfig()
             auto value = line.substr(delimiterPos + 1);
 
             if (name == "opengl_major")
-            {
-                try
-                {
-                    result.opengl_major = std::stoul(value);
-                }
-                catch (std::invalid_argument const &e)
-                {
-                    fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-                catch (std::out_of_range const &e)
-                {
-                fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-            }
-
+                setUInt(result.opengl_major, value, linenum);
             else if (name == "opengl_minor")
-            {
-                try
-                {
-                    result.opengl_minor = std::stoul(value);
-                }
-                catch (std::invalid_argument const &e)
-                {
-                    fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-                catch (std::out_of_range const &e)
-                {
-                fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-            }
-
+                setUInt(result.opengl_minor, value, linenum);
             else if (name == "vsync")
-            {
-                if (value == "0")
-                    result.vsync = false;
-                else if (value == "1")
-                    result.vsync = true;
-                else
-                {
-                    fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-            }
-
+                setBool(result.vsync, value, linenum);
             else if (name == "msaa")
-            {
-                try
-                {
-                    result.msaa = std::stoul(value);
-                    if (result.msaa > 8)
-                        result.msaa = 8;
-                }
-                catch (std::invalid_argument const &e)
-                {
-                    fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-                catch (std::out_of_range const &e)
-                {
-                fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-            }
-
+                setUInt(result.msaa, value, linenum);
             else if (name == "fullscreen")
-            {
-                if (value == "0")
-                    result.fullscreen = false;
-                else if (value == "1")
-                    result.fullscreen = true;
-                else
-                {
-                    fprintf(stderr, "(Petroleum) WARNING: Ignoring invalid value in ptconfig (line %d)...\n", linenum);
-                }
-            }
-
+                setBool(result.fullscreen, value, linenum);
             else
                 fprintf(stderr, "(Petroleum) WARNING: Ignoring unknown config name in ptconfig (line %d)...\n", linenum);
-        } //end-bracket of while
+        }
 
     }
     return result;

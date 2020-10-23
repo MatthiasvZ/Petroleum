@@ -2,12 +2,12 @@
 
 namespace PT
 {
-void clearErrors()
+void clearGlErrors()
 {
     while (glGetError());
 }
 
-void getErrors()
+void getGlErrors()
 {
     while (GLenum error = glGetError())
     {
