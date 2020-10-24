@@ -20,9 +20,8 @@ The project may be build using either *make* or *Code::Blocks*.
 Alternatively, there are already compiled Linux versions in this repository's release section.
 ### Building a program using Petroleum (Linux)
 Programs using this library need to #include the *Petroleum.h* and link the *libPetroleum.a*, GLEW and GLFW as follows:
+
 ```g++ main.cpp /path/to/libPetroleum.a $(pkg-config --libs glfw3 glew) -o prog```
-or if *pkg-config* can't be used:
-```g++ main.cpp /path/to/libPetroleum.a -lglfw -lGLEW -lX11 -lGLU -lGL -o prog```
 ## Features
 - Quickly initialising GLFW and GLEW with proper settings
 - Config system
