@@ -20,9 +20,44 @@ std::string Shader::readFromFile(const char* filePath)
     return "";
 }
 
+VertexBufferLayout Shader::createLayout(std::string vertexSource)
+{
+    VertexBufferLayout result;
+    std::istringstream stream(vertexSource);
+    std::string line;
+    while (getline(stream, line))
+    {
+        line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+        if (line[0] == 'i' && line[1] == 'n')
+        {
+            if (line[2] == 'f' && line[3] == 'l' && line[4] == 'o' && line[5] == 'a' && line[6] == 't')
+                result.push(GL_FLOAT, 1);
+
+            if (line[2] == 'v' && line[3] == 'e' && line[4] == 'c')
+            {
+                switch (line[5])
+                {
+                case '2':
+                    result.push(GL_FLOAT, 2);
+                    break;
+                case '3':
+                    result.push(GL_FLOAT, 3);
+                    break;
+                case '4':
+                    result.push(GL_FLOAT, 4);
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
 Shader::Shader(unsigned int shaderName)
 {
     #include "../../include/DefaultShaders.h"
+    layout = createLayout(vertSources[shaderName]);
     programID = glCreateProgram();
     unsigned int vertexShader = compileShader(vertSources[shaderName].c_str(), GL_VERTEX_SHADER);
     unsigned int fragmentShader = compileShader(fragSources[shaderName].c_str(), GL_FRAGMENT_SHADER);
@@ -41,6 +76,7 @@ Shader::Shader(unsigned int shaderName)
 
 Shader::Shader(SourcePackage srcpkg)
 {
+    layout = createLayout(srcpkg.vertex);
     programID = glCreateProgram();
     unsigned int vertexShader = compileShader(srcpkg.vertex.c_str(), GL_VERTEX_SHADER);
     unsigned int fragmentShader = compileShader(srcpkg.fragment.c_str(), GL_FRAGMENT_SHADER);
@@ -67,7 +103,7 @@ unsigned int Shader::compileShader(const char* src, unsigned int type)
     glGetShaderiv(id, GL_COMPILE_STATUS, &status);
     if (status != GL_TRUE)
     {
-        std::cerr << "Error: Couldn't compile " << \
+        std::cerr << "(Petroleum) ERROR: Couldn't compile " << \
                 (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << \
                 "Shader!\n";
         char buffer[1024];

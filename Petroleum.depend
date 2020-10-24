@@ -4,17 +4,19 @@
 1603318618 source:/home/matthias/Projets/Petroleum/main.cpp
 	<iostream>
 
-1603427880 source:/home/matthias/Projets/Petroleum/src/gl/Window.cpp
+1603495700 source:/home/matthias/Projets/Petroleum/src/gl/Window.cpp
 	"../../Petroleum.h"
 
-1603436111 /home/matthias/Projets/Petroleum/Petroleum.h
+1603511595 /home/matthias/Projets/Petroleum/Petroleum.h
 	<algorithm>
 	<climits>
+	<cmath>
 	<cstdio>
 	<ctime>
 	<cstring>
 	<fstream>
 	<iostream>
+	<sstream>
 	<string>
 	<sys/stat.h>
 	<unistd.h>
@@ -25,10 +27,10 @@
 	"stb_image.h"
 	<glm/glm.hpp>
 
-1603438474 source:/home/matthias/Projets/Petroleum/src/other/FileManagement.cpp
+1603510169 source:/home/matthias/Projets/Petroleum/src/other/FileManagement.cpp
 	"../../Petroleum.h"
 
-1603338641 source:/home/matthias/Projets/Petroleum/src/other/Core.cpp
+1603509013 source:/home/matthias/Projets/Petroleum/src/other/Core.cpp
 	"../../Petroleum.h"
 
 1603316264 /home/matthias/Projets/Petroleum/stb_image.h
@@ -51,10 +53,10 @@
 1603334689 source:/home/matthias/Projets/Petroleum/src/gl/IndexBuffer.cpp
 	"../../Petroleum.h"
 
-1603334713 source:/home/matthias/Projets/Petroleum/src/gl/Renderer.cpp
+1603510888 source:/home/matthias/Projets/Petroleum/src/gl/Renderer.cpp
 	"../../Petroleum.h"
 
-1603334759 source:/home/matthias/Projets/Petroleum/src/gl/Texture.cpp
+1603505666 source:/home/matthias/Projets/Petroleum/src/gl/Texture.cpp
 	"../../Petroleum.h"
 
 1603334776 source:/home/matthias/Projets/Petroleum/src/gl/VertexArray.cpp
@@ -63,7 +65,7 @@
 1603334783 source:/home/matthias/Projets/Petroleum/src/gl/VertexBuffer.cpp
 	"../../Petroleum.h"
 
-1603338903 source:/home/matthias/Projets/Petroleum/src/gl/Shader.cpp
+1603490152 source:/home/matthias/Projets/Petroleum/src/gl/Shader.cpp
 	"../../Petroleum.h"
 	"../../include/DefaultShaders.h"
 

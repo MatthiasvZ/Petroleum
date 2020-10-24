@@ -39,7 +39,6 @@
 			</Target>
 		</Build>
 		<Unit filename="Petroleum.h" />
-		<Unit filename="Petroleum3D.h" />
 		<Unit filename="include/DefaultShaders.h" />
 		<Unit filename="src/gl/IndexBuffer.cpp" />
 		<Unit filename="src/gl/Renderer.cpp" />

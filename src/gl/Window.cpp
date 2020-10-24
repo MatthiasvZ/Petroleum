@@ -8,7 +8,7 @@ void errorCallback(int error, const char* description)
     fprintf(stderr, "(Petroleum) GLFW Error (%d): %s\n", error, description);
 }
 
-Input input; // GLFW SUCKS!
+Input input;
 bool fullscreen;
 int windowPosX, windowPosY;
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -177,7 +177,6 @@ void Window::update()
     fps++;
 
     glfwSwapBuffers(window);
-    glfwPollEvents();
 }
 
 void Window::changeTitle(const std::string newTitle)
@@ -186,6 +185,10 @@ void Window::changeTitle(const std::string newTitle)
     glfwSetWindowTitle(window, (title + " FPS = " + std::to_string(last_fps)).c_str());
 }
 
+void Window::makeContextCurrent()
+{
+    glfwMakeContextCurrent(window);
+}
 
 Window::~Window()
 {
