@@ -30,7 +30,7 @@ Programs using this library need to #include the *Petroleum.h* and link the *lib
 - A class for importing and using textures
 ## Credits
 The following open-source libraries are used:
-- **GLFW** for creating window and gl-context
+- **GLFW** for creating the window and context
 - **GLEW** for accessing the OpenGL functions
 - **stb-image** for reading in images such as textures
 ## Examples
@@ -84,4 +84,4 @@ int main()
 ## Licence
 This program is available under the Unlicense. The same applies for stb-image.h.
 
-**Note that GLFW and GLEW have their own licences, causing this program's compiled use when linked with GLFW and GLEW to be restricted by the following open-source licences: zlib/libpng, BSD, MIT.**
+**Note that GLFW and GLEW have their own licences, causing this program's compiled use when linked with GLFW and GLEW to be partially restricted by the following open-source licences: zlib/libpng, BSD, MIT.**

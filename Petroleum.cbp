@@ -40,6 +40,8 @@
 		</Build>
 		<Unit filename="Petroleum.h" />
 		<Unit filename="include/DefaultShaders.h" />
+		<Unit filename="src/gl/Camera.cpp" />
+		<Unit filename="src/gl/Geometry.cpp" />
 		<Unit filename="src/gl/IndexBuffer.cpp" />
 		<Unit filename="src/gl/Renderer.cpp" />
 		<Unit filename="src/gl/Shader.cpp" />

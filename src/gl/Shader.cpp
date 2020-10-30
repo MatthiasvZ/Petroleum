@@ -1,9 +1,14 @@
 #include "../../Petroleum.h"
+#include <algorithm>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace PT
 {
 
-std::string Shader::readFromFile(const char* filePath)
+std::string readFromFile(const char* filePath)
 {
     std::ifstream in(filePath, std::ios::in | std::ios::binary);
     if (in)
@@ -60,7 +65,7 @@ Shader::Shader(unsigned int shaderName)
     layout = createLayout(vertSources[shaderName]);
     programID = glCreateProgram();
     unsigned int vertexShader = compileShader(vertSources[shaderName].c_str(), GL_VERTEX_SHADER);
-    unsigned int fragmentShader = compileShader(fragSources[shaderName].c_str(), GL_FRAGMENT_SHADER);
+    unsigned int fragmentShader = compileShader(fragSources[shaderName % 10].c_str(), GL_FRAGMENT_SHADER);
 
     glAttachShader(programID, vertexShader);
     glAttachShader(programID, fragmentShader);
@@ -126,57 +131,79 @@ void Shader::unbindShader() const
 
 void Shader::setUniform1i(const std::string& name, int v0)
 {
+    bindShader();
     glUniform1i(getUniformLocation(name), v0);
+    unbindShader();
 }
 
 void Shader::setUniform2i(const std::string& name, int v0, int v1)
 {
+    bindShader();
     glUniform2i(getUniformLocation(name), v0, v1);
+    unbindShader();
 }
 
 void Shader::setUniform3i(const std::string& name, int v0, int v1, int v2)
 {
+    bindShader();
     glUniform3i(getUniformLocation(name), v0, v1, v2);
+    unbindShader();
 }
 
 void Shader::setUniform4i(const std::string& name, int v0, int v1, int v2, int v3)
 {
+    bindShader();
     glUniform4i(getUniformLocation(name), v0, v1, v2, v3);
+    unbindShader();
 }
 
 void Shader::setUniform1f(const std::string& name, float v0)
 {
+    bindShader();
     glUniform1f(getUniformLocation(name), v0);
+    unbindShader();
 }
 
 void Shader::setUniform2f(const std::string& name, float v0, float v1)
 {
+    bindShader();
     glUniform2f(getUniformLocation(name), v0, v1);
+    unbindShader();
 }
 
 void Shader::setUniform3f(const std::string& name, float v0, float v1, float v2)
 {
+    bindShader();
     glUniform3f(getUniformLocation(name), v0, v1, v2);
+    unbindShader();
 }
 
 void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
+    bindShader();
     glUniform4f(getUniformLocation(name), v0, v1, v2, v3);
+    unbindShader();
 }
 
 void Shader::setUniformMat2f(const std::string& name, const glm::mat2& mat)
 {
-    glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+    bindShader();
+    glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
+    unbindShader();
 }
 
 void Shader::setUniformMat3f(const std::string& name, const glm::mat3& mat)
 {
-    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+    bindShader();
+    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
+    unbindShader();
 }
 
 void Shader::setUniformMat4f(const std::string& name, const glm::mat4& mat)
 {
-    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+    bindShader();
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
+    unbindShader();
 }
 
 int Shader::getUniformLocation(const std::string& name)
@@ -187,7 +214,7 @@ int Shader::getUniformLocation(const std::string& name)
     int location = glGetUniformLocation(programID, name.c_str());
     #ifdef DEBUG
     if (location == -1)
-        std::cerr << "Warning: uniform '" << name << "' does not exist or got removed due to being unused!" << std::endl;
+        std::cerr << "Warning: uniform '" << name << "' does not exist or got removed due to being unused inside of the shader!" << std::endl;
     #endif
     uniformLocationCache[name] = location;
     return location;

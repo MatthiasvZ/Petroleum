@@ -1,5 +1,5 @@
 #include "../../Petroleum.h"
-
+#include "../../include/stb_image.h"
 namespace PT
 {
 

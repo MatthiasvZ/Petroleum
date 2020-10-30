@@ -5,7 +5,7 @@ namespace PT
 
 void clearScreen()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void drawVA(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader)

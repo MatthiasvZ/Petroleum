@@ -4,10 +4,6 @@
 #include <string>
 #include <vector>
 
-#ifdef PT_3D
-#error "3D isn't yet implemented"
-#else
-
 std::vector<std::string> vertSources
 {
 
@@ -177,6 +173,194 @@ void main()
     f_TexCoords = texCoords;
     gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
 }
+)glsl",
+
+// vertXYZ_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZUV_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in vec2 texCoords;
+
+out vec2 f_TexCoords;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_TexCoords = texCoords;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZA_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in float alpha;
+
+out float f_Alpha;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Alpha = alpha;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZAUV_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in float alpha;
+in vec2 texCoords;
+
+out float f_Alpha;
+out vec2 f_TexCoords;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Alpha = alpha;
+    f_TexCoords = texCoords;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZB_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in float brightness;
+
+out float f_Brightness;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Brightness = brightness;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZBUV_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in float brightness;
+in vec2 texCoords;
+
+out float f_Brightness;
+out vec2 f_TexCoords;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Brightness = brightness;
+    f_TexCoords = texCoords;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZRGB_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in vec3 colour;
+
+out vec3 f_Colour;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Colour = colour;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZRGBUV_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in vec3 colour;
+in vec2 texCoords;
+
+out vec3 f_Colour;
+out vec2 f_TexCoords;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Colour = colour;
+    f_TexCoords = texCoords;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZRGBA_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in vec4 colour;
+
+out vec4 f_Colour;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Colour = colour;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
+)glsl",
+
+// vertXYZRGBAUV_M
+R"glsl(
+#version 400 core
+
+in vec3 position;
+in vec4 colour;
+in vec2 texCoords;
+
+out vec4 f_Colour;
+out vec2 f_TexCoords;
+
+uniform mat4 u_MVP;
+
+void main()
+{
+    f_Colour = colour;
+    f_TexCoords = texCoords;
+    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+}
 )glsl"
 
 };
@@ -342,8 +526,5 @@ void main()
 )glsl"
 
 };
-
-
-#endif // PT_3D
 
 #endif // DEFAULTSHADERS_H

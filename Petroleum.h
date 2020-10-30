@@ -1,32 +1,14 @@
 #ifndef PETROLEUM_H
 #define PETROLEUM_H
 
-
-#include <algorithm>
-#include <climits>
-#include <cmath>
-#include <cstdio>
-#include <ctime>
-#include <cstring>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 #include <GL/glew.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include "stb_image.h"
 #include <glm/glm.hpp>
-
-
-
-#define PT_VSYNC 0
-#define PT_MSAA 8
 
 #define PT_SHADER_XY 0
 #define PT_SHADER_XYUV 1
@@ -38,6 +20,16 @@
 #define PT_SHADER_XYRGBUV 7
 #define PT_SHADER_XYRGBA 8
 #define PT_SHADER_XYRGBAUV 9
+#define PT_SHADER_XYZ_M 10
+#define PT_SHADER_XYZUV_M 11
+#define PT_SHADER_XYZA_M 12
+#define PT_SHADER_XYZAUV_M 13
+#define PT_SHADER_XYZB_M 14
+#define PT_SHADER_XYZBUV_M 15
+#define PT_SHADER_XYZRGB_M 16
+#define PT_SHADER_XYZRGBUV_M 17
+#define PT_SHADER_XYZRGBA_M 18
+#define PT_SHADER_XYZRGBAUV_M 19
 
 #define PT_BLACK 0
 #define PT_WHITE 1
@@ -65,6 +57,7 @@ struct Config
     bool enable_blending;
 };
 Config parseConfig();
+void saveConfig(Config cfg);
 
 
 // CORE
@@ -82,20 +75,35 @@ struct Input
 {
         bool ctrlHeld {false};
         bool spaceHeld {false};
-        bool shiftHeld {false};
+        bool leftShiftHeld {false};
+        bool rightShiftHeld {false};
+        bool qHeld {false};
         bool wHeld {false};
+        bool eHeld {false};
+        bool rHeld {false};
         bool aHeld {false};
         bool sHeld {false};
         bool dHeld {false};
+        bool fHeld {false};
+        bool yHeld {false};
+        bool xHeld {false};
+        bool cHeld {false};
+        bool vHeld {false};
         bool downHeld {false};
         bool leftHeld {false};
         bool rightHeld {false};
         bool upHeld {false};
+        bool kp1Held {false};
         bool kp2Held {false};
+        bool kp3Held {false};
         bool kp4Held {false};
         bool kp5Held {false};
         bool kp6Held {false};
+        bool kp7Held {false};
         bool kp8Held {false};
+        bool kp9Held {false};
+        double mouseX {0.0};
+        double mouseY {0.0};
 };
 
 
@@ -105,7 +113,8 @@ class Window
         Window();
         Window(Config cfg);
         bool shouldRun() const;
-        const Input& getInputs() const;
+        Input* getInputs() const;
+        void getCursorPos(double* p_X, double* p_Y);
         void update();
         void changeTitle(const std::string newTitle);
         void makeContextCurrent();
@@ -217,11 +226,11 @@ class VertexBufferLayout
 };
 
 
+std::string readFromFile(const char* filePath);
+
 class Shader
 {
     public:
-        static std::string readFromFile(const char* filePath);
-
         Shader(unsigned int shaderName);
         Shader(SourcePackage srcpkg);
         ~Shader();
@@ -294,6 +303,33 @@ class Texture
 };
 
 
+class Camera
+{
+    public:
+        Camera(float x = 1.0f, float y = 1.0f, float z = 1.0f);
+        glm::mat4 update(float deltaTime, Input inputs);
+        inline void setDrawDistance(float s) { drawDistance = s; }
+        inline void setSpeedH(float s) { movFacH = s; }
+        inline void setSpeedV(float s) { movFacV = s; }
+        inline void setMouseSpeed(float s) { turnSpeed = s; }
+    private:
+        float drawDistance;
+        float movFacH;
+        float movFacV;
+        float turnSpeed;
+        float pitch;
+        float yaw;
+        bool sprinting;
+        glm::vec3 camPos;
+        glm::vec3 camFront;
+        double lastMouseX;
+        double lastMouseY;
+        float initX;
+        float initY;
+        float initZ;
+};
+
+
 // RENDERER
 void clearScreen();
 void drawVA(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader);
@@ -301,77 +337,12 @@ void drawTexture(const VertexArray& vao, const IndexBuffer& ibo, Shader& shader,
 
 
 // Template vertices
-inline std::vector<float> tVertsEquilateralXY(float posX, float posY, float size, bool centred = true)
-{
-    if (centred)
-        return std::vector<float>() =
-        {
-            posX - size / 2,    posY - (float)sqrt(size*size - size*size/4) / 2,
-            posX,               posY + (float)sqrt(size*size - size*size/4) / 2,
-            posX + size / 2,    posY - (float)sqrt(size*size - size*size/4) / 2
-        };
-    return std::vector<float>() =
-    {
-        posX,               posY,
-        posX + size / 2,    posY + (float)sqrt(size*size - size*size/4),
-        posX + size,        posY
-    };
-}
-
-inline std::vector<float> tVertsEquilateralXYUV(float posX, float posY, float size, bool centred = true)
-{
-    if (centred)
-        return std::vector<float>() =
-        {
-            posX - size / 2,    posY - (float)sqrt(size*size - size*size/4) / 2, 0.0f, 0.0f,
-            posX,               posY + (float)sqrt(size*size - size*size/4) / 2, 0.5f, 1.0f,
-            posX + size / 2,    posY - (float)sqrt(size*size - size*size/4) / 2, 1.0f, 0.0f
-        };
-    return std::vector<float>() =
-    {
-        posX,               posY,                                           0.0f, 0.0f,
-        posX + size / 2,    posY + (float)sqrt(size*size - size*size/4),    0.5f, 1.0f,
-        posX + size,        posY,                                           1.0f, 0.0f
-    };
-}
-
-inline std::vector<float> tVertsSquareXY(float posX, float posY, float size, bool centred = false)
-{
-    if (centred)
-        return std::vector<float>() =
-        {
-            posX - size/2, posY - size/2,
-            posX - size/2, posY + size/2,
-            posX + size/2, posY + size/2,
-            posX + size/2, posY - size/2
-        };
-    return std::vector<float>() =
-    {
-        posX,           posY - size,
-        posX,           posY,
-        posX + size,    posY,
-        posX + size,    posY - size
-    };
-}
-
-inline std::vector<float> tVertsSquareXYUV(float posX, float posY, float size, bool centred = false)
-{
-    if (centred)
-        return std::vector<float>() =
-        {
-            posX - size/2, posY - size/2, 0.0f, 0.0f,
-            posX - size/2, posY + size/2, 0.0f, 1.0f,
-            posX + size/2, posY + size/2, 1.0f, 1.0f,
-            posX + size/2, posY - size/2, 1.0f, 0.0f
-        };
-    return std::vector<float>() =
-    {
-        posX,           posY - size, 0.0f, 0.0f,
-        posX,           posY,        0.0f, 1.0f,
-        posX + size,    posY,        1.0f, 1.0f,
-        posX + size,    posY - size, 1.0f, 0.0f
-    };
-}
+std::vector<float> tVertsEquilateralXY(float posX, float posY, float size, bool centred = true);
+std::vector<float> tVertsEquilateralXYUV(float posX, float posY, float size, bool centred = true);
+std::vector<float> tVertsSquareXY(float posX, float posY, float size, bool centred = false);
+std::vector<float> tVertsSquareXYUV(float posX, float posY, float size, bool centred = false);
+std::vector<float> tVertsCubeXYZ(float posX, float posY, float posZ, float size, bool centred = false, bool shortened = true);
+std::vector<float> tVertsCubeXYZUV(float posX, float posY, float posZ, float size, bool centred = false, bool shortened = true);
 
 template <typename T>
 inline std::vector<T> tIndsTriangles(T count)
@@ -402,6 +373,143 @@ inline std::vector<T> tIndsSquares(T count)
     }
     return result;
 }
+
+template <typename T>
+inline std::vector<T> tIndsCubes(T count, bool shortened = true)
+{
+    if (shortened)
+    {
+        std::vector<T> result(36 * count);
+        for (int i {0}; i < count; ++i)
+        {
+            result.push_back(0 + 8*i);
+            result.push_back(1 + 8*i);
+            result.push_back(2 + 8*i);
+
+            result.push_back(1 + 8*i);
+            result.push_back(2 + 8*i);
+            result.push_back(3 + 8*i);
+
+
+            result.push_back(4 + 8*i);
+            result.push_back(5 + 8*i);
+            result.push_back(6 + 8*i);
+
+            result.push_back(5 + 8*i);
+            result.push_back(6 + 8*i);
+            result.push_back(7 + 8*i);
+
+
+            result.push_back(0 + 8*i);
+            result.push_back(1 + 8*i);
+            result.push_back(4 + 8*i);
+
+            result.push_back(1 + 8*i);
+            result.push_back(4 + 8*i);
+            result.push_back(5 + 8*i);
+
+
+            result.push_back(2 + 8*i);
+            result.push_back(3 + 8*i);
+            result.push_back(6 + 8*i);
+
+            result.push_back(3 + 8*i);
+            result.push_back(6 + 8*i);
+            result.push_back(7 + 8*i);
+
+
+            result.push_back(0 + 8*i);
+            result.push_back(2 + 8*i);
+            result.push_back(4 + 8*i);
+
+            result.push_back(2 + 8*i);
+            result.push_back(4 + 8*i);
+            result.push_back(6 + 8*i);
+
+
+            result.push_back(1 + 8*i);
+            result.push_back(3 + 8*i);
+            result.push_back(5 + 8*i);
+
+            result.push_back(3 + 8*i);
+            result.push_back(5 + 8*i);
+            result.push_back(7 + 8*i);
+        }
+        return result;
+    }
+    else
+        return tIndsSquares<T>(6);
+}
+
+template <typename T>
+inline std::vector<T> tIndsTexturedCubes(T count, bool shortened = true)
+{
+    if (shortened)
+    {
+        std::vector<T> result(36 * count);
+        for (int i {0}; i < count; ++i)
+        {
+            result.push_back(0 + 12*i);
+            result.push_back(1 + 12*i);
+            result.push_back(2 + 12*i);
+
+            result.push_back(1 + 12*i);
+            result.push_back(2 + 12*i);
+            result.push_back(3 + 12*i);
+
+
+            result.push_back(4 + 12*i);
+            result.push_back(5 + 12*i);
+            result.push_back(6 + 12*i);
+
+            result.push_back(5 + 12*i);
+            result.push_back(6 + 12*i);
+            result.push_back(7 + 12*i);
+
+
+            result.push_back(8 + 12*i);
+            result.push_back(1 + 12*i);
+            result.push_back(9 + 12*i);
+
+            result.push_back(1 + 12*i);
+            result.push_back(9 + 12*i);
+            result.push_back(5 + 12*i);
+
+
+            result.push_back(10 + 12*i);
+            result.push_back(3 + 12*i);
+            result.push_back(11 + 12*i);
+
+            result.push_back(3 + 12*i);
+            result.push_back(11 + 12*i);
+            result.push_back(7 + 12*i);
+
+
+            result.push_back(0 + 12*i);
+            result.push_back(2 + 12*i);
+            result.push_back(4 + 12*i);
+
+            result.push_back(2 + 12*i);
+            result.push_back(4 + 12*i);
+            result.push_back(6 + 12*i);
+
+
+            result.push_back(1 + 12*i);
+            result.push_back(3 + 12*i);
+            result.push_back(5 + 12*i);
+
+            result.push_back(3 + 12*i);
+            result.push_back(5 + 12*i);
+            result.push_back(7 + 12*i);
+        }
+        return result;
+    }
+    else
+        return tIndsSquares<T>(6);
+}
+
+std::vector<float> xyToXyz(const std::vector<float>& vertices2d, unsigned int vertexSize, float z = 1.0f);
+
 }
 
 

@@ -1,4 +1,8 @@
 #include "../../Petroleum.h"
+#include <algorithm>
+#include <fstream>
+#include <sys/stat.h>
+#include <unistd.h>
 
 namespace PT
 {
@@ -45,19 +49,19 @@ void createDataFolder(const char* directory)
         cfg << "opengl_minor = 0\n";
         cfg << "\n";
         cfg << "# Use v-sync (0 – 1)\n";
-        cfg << "vsync = false\n";
+        cfg << "vsync = 0\n";
         cfg << "\n";
         cfg << "# Anti-aliasing level (0 – 8)\n";
         cfg << "msaa = 4\n";
         cfg << "\n";
         cfg << "# Start in fullscreen mode (0 – 1)\n";
-        cfg << "fullscreen = false\n";
+        cfg << "fullscreen = 0\n";
         cfg << "\n";
         cfg << "# Colour where nothing is drawn\n";
         cfg << "clear_colour = black\n";
         cfg << "\n";
         cfg << "# Allow transparency (0 – 1)\n";
-        cfg << "enable_blending = true\n";
+        cfg << "enable_blending = 1\n";
         cfg << "\n";
     }
 }
@@ -169,6 +173,43 @@ Config parseConfig()
 
     }
     return result;
+}
+
+void saveConfig(Config cfg)
+{
+    #ifdef DEBUG
+        fprintf(stderr, "(Petroleum) DEBUG: Saving ptconfig\n");
+    #endif // DEBUG
+    std::ofstream cfgf;
+    cfgf.open("ptconfig");
+    if (!cfgf.is_open())
+        fprintf(stderr, "(Petroleum) ERROR: Couldn't access ptconfig\n");
+    cfgf << "# Configuration of the Petroleum game engine\n";
+    cfgf << "# DO NOT EDIT unless you know what you are doing!!\n";
+    cfgf << "# Editing of this file should usally be done by, or using, the overlying game.\n";
+    cfgf << "# Whitespace and lines starting with hash symbols will be ignored.\n";
+    cfgf << "\n";
+    cfgf << "# OpenGL Version X.x\n";
+    cfgf << "opengl_major = " << cfg.opengl_major << "\n";
+    cfgf << "\n";
+    cfgf << "# OpenGL Version x.X\n";
+    cfgf << "opengl_minor = " << cfg.opengl_minor << "\n";
+    cfgf << "\n";
+    cfgf << "# Use v-sync (0 – 1)\n";
+    cfgf << "vsync = " << cfg.vsync << "\n";
+    cfgf << "\n";
+    cfgf << "# Anti-aliasing level (0 – 8)\n";
+    cfgf << "msaa = " << cfg.msaa << "\n";
+    cfgf << "\n";
+    cfgf << "# Start in fullscreen mode (0 – 1)\n";
+    cfgf << "fullscreen = " << cfg.fullscreen << "\n";
+    cfgf << "\n";
+    cfgf << "# Colour where nothing is drawn\n";
+    cfgf << "clear_colour = " << cfg.clear_colour << "\n";
+    cfgf << "\n";
+    cfgf << "# Allow transparency (0 – 1)\n";
+    cfgf << "enable_blending = " << cfg.enable_blending << "\n";
+    cfgf << "\n";
 }
 
 }

@@ -23,6 +23,7 @@ void initGL()
 {
     initCommon();
 
+    glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -58,6 +59,8 @@ void initGL(Config cfg)
 
     if (cfg.msaa)
         glEnable(GL_MULTISAMPLE);
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 
