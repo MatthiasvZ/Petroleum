@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/libPetroleum.a
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/gl/IndexBuffer.o $(OBJDIR_DEBUG)/src/gl/Renderer.o $(OBJDIR_DEBUG)/src/gl/Shader.o $(OBJDIR_DEBUG)/src/gl/Texture.o $(OBJDIR_DEBUG)/src/gl/VertexArray.o $(OBJDIR_DEBUG)/src/gl/VertexBuffer.o $(OBJDIR_DEBUG)/src/gl/Window.o $(OBJDIR_DEBUG)/src/other/Core.o $(OBJDIR_DEBUG)/src/other/ErrorFeedback.o $(OBJDIR_DEBUG)/src/other/FileManagement.o $(OBJDIR_DEBUG)/src/other/stb_image.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/gl/Camera.o $(OBJDIR_DEBUG)/src/gl/Geometry.o $(OBJDIR_DEBUG)/src/gl/IndexBuffer.o $(OBJDIR_DEBUG)/src/gl/Renderer.o $(OBJDIR_DEBUG)/src/gl/Shader.o $(OBJDIR_DEBUG)/src/gl/Texture.o $(OBJDIR_DEBUG)/src/gl/VertexArray.o $(OBJDIR_DEBUG)/src/gl/VertexBuffer.o $(OBJDIR_DEBUG)/src/gl/Window.o $(OBJDIR_DEBUG)/src/other/Core.o $(OBJDIR_DEBUG)/src/other/ErrorFeedback.o $(OBJDIR_DEBUG)/src/other/FileManagement.o $(OBJDIR_DEBUG)/src/other/stb_image.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/gl/IndexBuffer.o $(OBJDIR_RELEASE)/src/gl/Renderer.o $(OBJDIR_RELEASE)/src/gl/Shader.o $(OBJDIR_RELEASE)/src/gl/Texture.o $(OBJDIR_RELEASE)/src/gl/VertexArray.o $(OBJDIR_RELEASE)/src/gl/VertexBuffer.o $(OBJDIR_RELEASE)/src/gl/Window.o $(OBJDIR_RELEASE)/src/other/Core.o $(OBJDIR_RELEASE)/src/other/ErrorFeedback.o $(OBJDIR_RELEASE)/src/other/FileManagement.o $(OBJDIR_RELEASE)/src/other/stb_image.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/gl/Camera.o $(OBJDIR_RELEASE)/src/gl/Geometry.o $(OBJDIR_RELEASE)/src/gl/IndexBuffer.o $(OBJDIR_RELEASE)/src/gl/Renderer.o $(OBJDIR_RELEASE)/src/gl/Shader.o $(OBJDIR_RELEASE)/src/gl/Texture.o $(OBJDIR_RELEASE)/src/gl/VertexArray.o $(OBJDIR_RELEASE)/src/gl/VertexBuffer.o $(OBJDIR_RELEASE)/src/gl/Window.o $(OBJDIR_RELEASE)/src/other/Core.o $(OBJDIR_RELEASE)/src/other/ErrorFeedback.o $(OBJDIR_RELEASE)/src/other/FileManagement.o $(OBJDIR_RELEASE)/src/other/stb_image.o
 
 all: debug release
 
@@ -59,6 +59,12 @@ debug: before_debug out_debug after_debug
 
 out_debug: before_debug $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(AR) rcs $(OUT_DEBUG) $(OBJ_DEBUG)
+
+$(OBJDIR_DEBUG)/src/gl/Camera.o: src/gl/Camera.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/gl/Camera.cpp -o $(OBJDIR_DEBUG)/src/gl/Camera.o
+
+$(OBJDIR_DEBUG)/src/gl/Geometry.o: src/gl/Geometry.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/gl/Geometry.cpp -o $(OBJDIR_DEBUG)/src/gl/Geometry.o
 
 $(OBJDIR_DEBUG)/src/gl/IndexBuffer.o: src/gl/IndexBuffer.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/gl/IndexBuffer.cpp -o $(OBJDIR_DEBUG)/src/gl/IndexBuffer.o
@@ -110,6 +116,12 @@ release: before_release out_release after_release
 
 out_release: before_release $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(AR) rcs $(OUT_RELEASE) $(OBJ_RELEASE)
+
+$(OBJDIR_RELEASE)/src/gl/Camera.o: src/gl/Camera.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/gl/Camera.cpp -o $(OBJDIR_RELEASE)/src/gl/Camera.o
+
+$(OBJDIR_RELEASE)/src/gl/Geometry.o: src/gl/Geometry.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/gl/Geometry.cpp -o $(OBJDIR_RELEASE)/src/gl/Geometry.o
 
 $(OBJDIR_RELEASE)/src/gl/IndexBuffer.o: src/gl/IndexBuffer.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/gl/IndexBuffer.cpp -o $(OBJDIR_RELEASE)/src/gl/IndexBuffer.o
