@@ -100,10 +100,76 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
     {
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
+        input.mouse1 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
+    {
+        input.mouse1 = false;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS)
+    {
+        input.mouse2 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_RELEASE)
+    {
+        input.mouse2 = false;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_3 && action == GLFW_PRESS)
+    {
+        input.mouse3 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_3 && action == GLFW_RELEASE)
+    {
+        input.mouse3 = false;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_4 && action == GLFW_PRESS)
+    {
+        input.mouse4 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_4 && action == GLFW_RELEASE)
+    {
+        input.mouse4 = false;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_5 && action == GLFW_PRESS)
+    {
+        input.mouse5 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_5 && action == GLFW_RELEASE)
+    {
+        input.mouse5 = false;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_6 && action == GLFW_PRESS)
+    {
+        input.mouse6 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_6 && action == GLFW_RELEASE)
+    {
+        input.mouse6 = false;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_7 && action == GLFW_PRESS)
+    {
+        input.mouse7 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_7 && action == GLFW_RELEASE)
+    {
+        input.mouse7 = false;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_8 && action == GLFW_PRESS)
+    {
+        input.mouse8 = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_8 && action == GLFW_RELEASE)
+    {
+        input.mouse8 = false;
     }
 }
 
@@ -174,6 +240,8 @@ void Window::init()
 
     glfwSetKeyCallback(window, keyCallback);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+    glfwSetErrorCallback(errorCallback);
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     if (glfwRawMouseMotionSupported())

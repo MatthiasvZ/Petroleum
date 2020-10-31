@@ -53,7 +53,6 @@
 		<Unit filename="src/other/ErrorFeedback.cpp" />
 		<Unit filename="src/other/FileManagement.cpp" />
 		<Unit filename="src/other/stb_image.cpp" />
-		<Unit filename="stb_image.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

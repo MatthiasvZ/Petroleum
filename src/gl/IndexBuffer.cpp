@@ -79,8 +79,13 @@ void IndexBuffer::unbindBuffer() const
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-IndexBuffer::~IndexBuffer()
+void IndexBuffer::remove()
 {
     glDeleteBuffers(1, &iboID);
+}
+
+IndexBuffer::~IndexBuffer()
+{
+    //glDeleteBuffers(1, &iboID);
 }
 }

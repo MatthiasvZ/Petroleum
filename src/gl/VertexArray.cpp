@@ -37,8 +37,13 @@ void VertexArray::unbindArray() const
     glBindVertexArray(0);
 }
 
-VertexArray::~VertexArray()
+void VertexArray::remove()
 {
     glDeleteVertexArrays(1, &vaoID);
+}
+
+VertexArray::~VertexArray()
+{
+    //glDeleteVertexArrays(1, &vaoID);
 }
 }

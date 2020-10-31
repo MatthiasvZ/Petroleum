@@ -33,8 +33,13 @@ void VertexBuffer::unbindBuffer() const
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-VertexBuffer::~VertexBuffer()
+void VertexBuffer::remove()
 {
     glDeleteBuffers(1, &vboID);
+}
+
+VertexBuffer::~VertexBuffer()
+{
+    // glDeleteBuffers(1, &vboID);
 }
 }

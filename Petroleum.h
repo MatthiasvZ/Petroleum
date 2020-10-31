@@ -104,6 +104,14 @@ struct Input
         bool kp9Held {false};
         double mouseX {0.0};
         double mouseY {0.0};
+        bool mouse1 {false};
+        bool mouse2 {false};
+        bool mouse3 {false};
+        bool mouse4 {false};
+        bool mouse5 {false};
+        bool mouse6 {false};
+        bool mouse7 {false};
+        bool mouse8 {false};
 };
 
 
@@ -148,6 +156,7 @@ class IndexBuffer
         inline unsigned int getIboID() const { return iboID; }
         inline unsigned int getCount() const { return count; }
         inline unsigned int getDataType() const { return dataType; }
+        void remove();
         ~IndexBuffer();
 
     protected:
@@ -167,6 +176,7 @@ class VertexBuffer
         void bindBuffer() const;
         void unbindBuffer() const;
         inline unsigned int getVboID() const { return vboID; }
+        void remove();
         ~VertexBuffer();
 
     protected:
@@ -271,6 +281,7 @@ class VertexArray
         void addBuffer(const VertexBuffer& vbo, const VertexBufferLayout& layout);
         void bindArray() const;
         void unbindArray() const;
+        void remove();
         ~VertexArray();
 
     protected:
