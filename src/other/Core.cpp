@@ -13,8 +13,8 @@ void initCommon()
             fprintf(stderr, "(Petroleum) INFO: PT::initGL() must be run AFTER at least one PT::Window was created!!\n");
     }
 
-    fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
-    fprintf(stdout, "Status: Using OpenGL %s\n", glGetString(GL_VERSION));
+    fprintf(stdout, "(Petroleum) Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
+    fprintf(stdout, "(Petroleum) Status: Using OpenGL %s\n", glGetString(GL_VERSION));
 
     glFrontFace(GL_CW);
 }

@@ -77,6 +77,7 @@ struct Input
         bool spaceHeld {false};
         bool leftShiftHeld {false};
         bool rightShiftHeld {false};
+        bool tabHeld {false};
         bool qHeld {false};
         bool wHeld {false};
         bool eHeld {false};
@@ -122,6 +123,8 @@ class Window
         Window(Config cfg);
         bool shouldRun() const;
         Input* getInputs() const;
+        int focused() const;
+        bool mouseLocked() const;
         void getCursorPos(double* p_X, double* p_Y);
         void update();
         void changeTitle(const std::string newTitle);
@@ -295,6 +298,7 @@ class Texture
 {
     public:
         Texture(const std::string& path, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
+        Texture(unsigned char** image, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
         ~Texture();
 
         void bindTexture(unsigned int slot = 0) const;
@@ -319,12 +323,21 @@ class Camera
     public:
         Camera(float x = 1.0f, float y = 1.0f, float z = 1.0f);
         glm::mat4 update(float deltaTime, Input inputs);
-        inline void setDrawDistance(float s) { drawDistance = s; }
+        inline void setClippingDistance(float s) { clippingDistance = s; }
         inline void setSpeedH(float s) { movFacH = s; }
         inline void setSpeedV(float s) { movFacV = s; }
         inline void setMouseSpeed(float s) { turnSpeed = s; }
+
+        inline float getPosX() { return camPos[0]; }
+        inline float getPosY() { return camPos[1]; }
+        inline float getPosZ() { return camPos[2]; }
+
+        inline void setPosX(float x) { camPos[0] = x; }
+        inline void setPosY(float y) { camPos[1] = y; }
+        inline void setPosZ(float z) { camPos[2] = z; }
+
     private:
-        float drawDistance;
+        float clippingDistance;
         float movFacH;
         float movFacV;
         float turnSpeed;
@@ -343,6 +356,7 @@ class Camera
 
 // RENDERER
 void clearScreen();
+void drawVA(const VertexArray& vao, const IndexBuffer& ibo);
 void drawVA(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader);
 void drawTexture(const VertexArray& vao, const IndexBuffer& ibo, Shader& shader, int texSlot);
 

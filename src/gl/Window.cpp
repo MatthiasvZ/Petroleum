@@ -11,6 +11,8 @@ void errorCallback(int error, const char* description)
 Input input;
 bool fullscreen;
 int windowPosX, windowPosY;
+int focused {0};
+bool mouseLocked {1};
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (action == GLFW_PRESS)
@@ -19,9 +21,16 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         {
         case GLFW_KEY_ESCAPE:  glfwSetWindowShouldClose(window, GLFW_TRUE); break;
         case GLFW_KEY_LEFT_CONTROL: input.ctrlHeld = true;    break;
-        case GLFW_KEY_SPACE:      input.spaceHeld = true;     break;
-        case GLFW_KEY_LEFT_SHIFT: input.leftShiftHeld = true;     break;
-        case GLFW_KEY_RIGHT_SHIFT: input.rightShiftHeld = true;     break;
+        case GLFW_KEY_SPACE:        input.spaceHeld = true;     break;
+        case GLFW_KEY_LEFT_SHIFT:   input.leftShiftHeld = true;     break;
+        case GLFW_KEY_RIGHT_SHIFT:  input.rightShiftHeld = true;     break;
+        case GLFW_KEY_TAB:          input.tabHeld = true;
+                if (mouseLocked)
+                    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                if (!mouseLocked)
+                    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                mouseLocked = !mouseLocked;
+                break;
         case GLFW_KEY_Q:            input.qHeld   = true;     break;
         case GLFW_KEY_W:            input.wHeld   = true;     break;
         case GLFW_KEY_E:            input.eHeld   = true;     break;
@@ -66,9 +75,10 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         switch (key)
         {
         case GLFW_KEY_LEFT_CONTROL: input.ctrlHeld = false;   break;
-        case GLFW_KEY_SPACE:      input.spaceHeld = false;    break;
-        case GLFW_KEY_LEFT_SHIFT: input.leftShiftHeld = false;    break;
-        case GLFW_KEY_RIGHT_SHIFT: input.rightShiftHeld = false;    break;
+        case GLFW_KEY_SPACE:        input.spaceHeld = false;    break;
+        case GLFW_KEY_LEFT_SHIFT:   input.leftShiftHeld = false;    break;
+        case GLFW_KEY_RIGHT_SHIFT:  input.rightShiftHeld = false;    break;
+        case GLFW_KEY_TAB:          input.tabHeld = false;    break;
         case GLFW_KEY_Q:            input.qHeld   = false;    break;
         case GLFW_KEY_W:            input.wHeld   = false;    break;
         case GLFW_KEY_E:            input.eHeld   = false;    break;
@@ -178,6 +188,10 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
+void focusCallback(GLFWwindow* window, int _focused)
+{
+    focused = _focused;
+}
 
 Window::Window()
     : fps{0}, seconds{0}, avg_fps{0}, last_fps{0}, tn{time(0)}, ta{tn}, title{"OpenGL"}
@@ -260,6 +274,16 @@ Input* Window::getInputs() const
     return &input;
 }
 
+int Window::focused() const
+{
+    return PT::focused;
+}
+
+bool Window::mouseLocked() const
+{
+    return PT::mouseLocked;
+}
+
 void Window::getCursorPos(double* p_X, double* p_Y)
 {
     glfwGetCursorPos(window, p_X, p_Y);
@@ -296,6 +320,7 @@ void Window::makeContextCurrent()
 
 Window::~Window()
 {
+    printf("avg. fps = %f\n", static_cast<float>(avg_fps) / seconds);
     glfwTerminate();
 }
 

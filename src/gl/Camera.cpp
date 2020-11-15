@@ -5,7 +5,7 @@ namespace PT
 {
 
 Camera::Camera(float x, float y, float z)
-    : drawDistance(100.0f), movFacH(15.0f), movFacV(15.0f), turnSpeed(0.35f), pitch(0.0f), yaw(-90.0f), sprinting(false), camPos(glm::vec3(x, y, z)), camFront(glm::vec3(0.0f, 0.0f, 0.0f)), initX(x), initY(y), initZ(z)
+    : clippingDistance(100.0f), movFacH(15.0f), movFacV(15.0f), turnSpeed(0.35f), pitch(0.0f), yaw(-90.0f), sprinting(false), camPos(glm::vec3(x, y, z)), camFront(glm::vec3(0.0f, 0.0f, 0.0f)), initX(x), initY(y), initZ(z)
 {
 
 }
@@ -64,7 +64,7 @@ glm::mat4 Camera::update(float deltaTime, Input inputs)
     float vp[4];
     glGetFloatv(GL_VIEWPORT, vp);
 
-    glm::mat4 projMat = glm::perspective(glm::radians(90.0f), vp[2] / vp[3], 1.0f, drawDistance);
+    glm::mat4 projMat = glm::perspective(glm::radians(90.0f), vp[2] / vp[3], 1.0f, clippingDistance);
 
     glm::mat4 viewMat = glm::mat4(glm::lookAt(
             camPos,

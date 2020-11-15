@@ -456,8 +456,8 @@ uniform sampler2D texSlot;
 
 void main()
 {
-    outColour = texture(texSlot, f_TexCoords) *
-    vec4(f_Brightness, f_Brightness, f_Brightness, 1.0f);
+    outColour = texture(texSlot, f_TexCoords)
+    * vec4(f_Brightness, f_Brightness, f_Brightness, 1.0f);
 }
 )glsl",
 

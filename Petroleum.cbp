@@ -29,15 +29,20 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-O3" />
+					<Add option="-flto" />
 					<Add option="-Wall" />
+					<Add option="-Ofast" />
 					<Add directory="include/gl" />
 				</Compiler>
 				<Linker>
+					<Add option="-flto" />
 					<Add option="-s" />
 				</Linker>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add option="-march=skylake" />
+		</Compiler>
 		<Unit filename="Petroleum.h" />
 		<Unit filename="include/DefaultShaders.h" />
 		<Unit filename="src/gl/Camera.cpp" />
