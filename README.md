@@ -37,6 +37,7 @@ The following open-source libraries are used:
 ### Drawing a coloured rectangle
 ```
 #include "Petroleum.h"
+#include <cstring>
 
 int main()
 {
@@ -68,7 +69,7 @@ int main()
     PT::IndexBuffer ibo(indices);
     vao.addBuffer(vbo, shader.getLayout());
 
-
+    glDisable(GL_DEPTH_BUFFER);
     while (window.shouldRun())
     {
         PT::clearScreen();
@@ -77,7 +78,7 @@ int main()
 
         PT::doEvents();
     }
-    
+
     return 0;
 }
 ```
