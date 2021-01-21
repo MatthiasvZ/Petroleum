@@ -63,6 +63,9 @@ void createDataFolder(const char* directory)
         cfg << "# Allow transparency (0 – 1)\n";
         cfg << "enable_blending = 1\n";
         cfg << "\n";
+        cfg << "# Capture Mouse (0 – 1)\n";
+        cfg << "capture_mouse = 0\n";
+        cfg << "\n";
     }
 }
 
@@ -115,6 +118,7 @@ Config parseConfig()
     result.fullscreen = false;
     result.clear_colour = PT_BLACK;
     result.enable_blending = false;
+    result.capture_mouse = false;
 
     std::fstream cfg;
     cfg.open("ptconfig");
@@ -167,6 +171,8 @@ Config parseConfig()
             }
             else if (name == "enable_blending")
                 setBool(result.enable_blending, value, linenum);
+            else if (name == "capture_mouse")
+                setBool(result.capture_mouse, value, linenum);
             else
                 fprintf(stderr, "(Petroleum) WARNING: Ignoring unknown config name in ptconfig (line %d)...\n", linenum);
         }

@@ -63,8 +63,6 @@ void initGL(Config cfg)
     glEnable(GL_DEPTH_TEST);
 }
 
-
-
 void doEvents()
 {
     glfwPollEvents();

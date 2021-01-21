@@ -225,6 +225,13 @@ Window::Window(Config cfg)
 
     this->init();
 
+    if (cfg.capture_mouse)
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        if (glfwRawMouseMotionSupported())
+            glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    }
+
     glfwSwapInterval(cfg.vsync); // 1 = v-sync 0 = off
 
     if (cfg.fullscreen)
@@ -256,10 +263,6 @@ void Window::init()
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     glfwSetErrorCallback(errorCallback);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    if (glfwRawMouseMotionSupported())
-        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 }
 
 bool Window::shouldRun() const
