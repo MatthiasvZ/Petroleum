@@ -69,7 +69,7 @@ int main()
     PT::IndexBuffer ibo(indices);
     vao.addBuffer(vbo, shader.getLayout());
 
-    glDisable(GL_DEPTH_BUFFER);
+    glDisable(GL_DEPTH_TEST);
     while (window.shouldRun())
     {
         PT::clearScreen();
