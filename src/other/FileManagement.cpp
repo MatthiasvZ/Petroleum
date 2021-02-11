@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <filesystem>
 
 namespace PT
 {
@@ -24,7 +25,7 @@ void createDataFolder(const char* directory)
         #ifdef DEBUG
             fprintf(stderr, "(Petroleum) DEBUG: Creating data folder at \"%s\"\n", directory);
         #endif // DEBUG
-        mkdir(directory, 0755);
+        std::filesystem::create_directory(directory);
     }
 
     std::string file = directory;
@@ -82,7 +83,7 @@ void createFolder(const char* directory)
     struct stat buffer;
     if (stat (directory, &buffer) != 0)
     {
-        mkdir(directory, 0755);
+        std::filesystem::create_directory(directory);
         #ifdef DEBUG
             fprintf(stderr, "(Petroleum) DEBUG: Creating folder \"%s\"\n", directory);
         #endif // DEBUG
