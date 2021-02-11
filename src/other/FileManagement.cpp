@@ -7,6 +7,8 @@
 namespace PT
 {
 
+bool g_Fresh {false};
+
 void setDataDir(const char* directory)
 {
     createDataFolder(directory);
@@ -33,6 +35,9 @@ void createDataFolder(const char* directory)
         #ifdef DEBUG
             fprintf(stderr, "(Petroleum) DEBUG: Creating config at \"%s\"\n", directory);
         #endif // DEBUG
+
+        g_Fresh = true;
+
         std::ofstream cfg;
         cfg.open(file);
         if (!cfg.is_open())
@@ -65,6 +70,9 @@ void createDataFolder(const char* directory)
         cfg << "\n";
         cfg << "# Capture Mouse (0 – 1)\n";
         cfg << "capture_mouse = 0\n";
+        cfg << "\n";
+        cfg << "# Resizable Window (0 – 1)\n";
+        cfg << "window_resizable = 0\n";
         cfg << "\n";
     }
 }
@@ -111,6 +119,7 @@ inline void setUInt(unsigned int& setting, std::string& value, unsigned int& lin
 Config parseConfig()
 {
     Config result;
+    result.fresh = g_Fresh;
     result.opengl_major = 4;
     result.opengl_minor = 0;
     result.vsync = false;
@@ -119,6 +128,7 @@ Config parseConfig()
     result.clear_colour = PT_BLACK;
     result.enable_blending = false;
     result.capture_mouse = false;
+    result.window_resizable = false;
 
     std::fstream cfg;
     cfg.open("ptconfig");
@@ -173,6 +183,8 @@ Config parseConfig()
                 setBool(result.enable_blending, value, linenum);
             else if (name == "capture_mouse")
                 setBool(result.capture_mouse, value, linenum);
+            else if (name == "window_resizable")
+                setBool(result.window_resizable, value, linenum);
             else
                 fprintf(stderr, "(Petroleum) WARNING: Ignoring unknown config name in ptconfig (line %d)...\n", linenum);
         }
@@ -215,6 +227,12 @@ void saveConfig(Config cfg)
     cfgf << "\n";
     cfgf << "# Allow transparency (0 – 1)\n";
     cfgf << "enable_blending = " << cfg.enable_blending << "\n";
+    cfgf << "\n";
+    cfgf << "# Capture Mouse (0 – 1)\n";
+    cfgf << "capture_mouse = " << cfg.capture_mouse << "\n";
+    cfgf << "\n";
+    cfgf << "# Resizable Window (0 – 1)\n";
+    cfgf << "window_resizable = " << cfg.window_resizable << "\n";
     cfgf << "\n";
 }
 

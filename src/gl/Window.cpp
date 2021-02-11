@@ -223,6 +223,9 @@ Window::Window(Config cfg)
     if (cfg.msaa)
         glfwWindowHint(GLFW_SAMPLES, cfg.msaa);
 
+    if (!cfg.window_resizable)
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
     this->init();
 
     if (cfg.capture_mouse)
@@ -246,8 +249,6 @@ void Window::init()
 {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     window = glfwCreateWindow(800, 800, (title + " FPS = 0").c_str(), nullptr, nullptr);
 
