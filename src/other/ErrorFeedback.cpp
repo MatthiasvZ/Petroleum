@@ -1,14 +1,16 @@
 #include "../../Petroleum.h"
+#include <AL/al.h>
 #include <iostream>
 
 namespace PT
 {
+
 void clearGlErrors()
 {
     while (glGetError());
 }
 
-void getGlErrors()
+void getGlErrors(DebugInfo* dbi)
 {
     while (GLenum error = glGetError())
     {
@@ -37,7 +39,32 @@ void getGlErrors()
             std::cerr << "UNKNOWN";
             break;
         }
-        std::cerr << ')' << std::endl;
+        if (dbi == nullptr)
+            std::cerr << ')' << std::endl;
+        else if (dbi->line)
+            std::cerr << ") after the call of " << dbi->call << " on line " << dbi->line << " of file " << dbi->file << " (" << dbi->func << "())" << std::endl;
+        else
+            std::cerr << ") after the call of " << dbi->call << " inside Petroleum (PT::" << dbi->func << "())" << std::endl;
     }
 }
+
+void clearAlErrors()
+{
+    while (alGetError());
+}
+
+void getAlErrors(DebugInfo* dbi)
+{
+    while (ALenum error = alGetError())
+    {
+        std::cerr << "[OpenAL Error] (" << error;
+        if (dbi == nullptr)
+            std::cerr << ')' << std::endl;
+        else if (dbi->line)
+            std::cerr << ") after the call of " << dbi->call << " on line " << dbi->line << " of file " << dbi->file << " (" << dbi->func << "())" << std::endl;
+        else
+            std::cerr << ") after the call of " << dbi->call << " inside Petroleum (PT::" << dbi->func << "())" << std::endl;
+    }
+}
+
 }

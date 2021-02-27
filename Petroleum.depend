@@ -7,7 +7,7 @@
 1613047365 source:/home/matthias/Projets/Petroleum/src/gl/Window.cpp
 	"../../Petroleum.h"
 
-1613053863 /home/matthias/Projets/Petroleum/Petroleum.h
+1614391201 /home/matthias/Projets/Petroleum/Petroleum.h
 	<vector>
 	<unordered_map>
 	<string>
@@ -15,14 +15,15 @@
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/other/FileManagement.cpp
+1614376250 source:/home/matthias/Projets/Petroleum/src/other/FileManagement.cpp
 	"../../Petroleum.h"
 	<algorithm>
 	<fstream>
 	<sys/stat.h>
 	<unistd.h>
+	<filesystem>
 
-1613047094 source:/home/matthias/Projets/Petroleum/src/other/Core.cpp
+1614376314 source:/home/matthias/Projets/Petroleum/src/other/Core.cpp
 	"../../Petroleum.h"
 
 1603316264 /home/matthias/Projets/Petroleum/stb_image.h
@@ -42,20 +43,20 @@
 	<intrin.h>
 	<arm_neon.h>
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/gl/IndexBuffer.cpp
+1614368971 source:/home/matthias/Projets/Petroleum/src/gl/IndexBuffer.cpp
 	"../../Petroleum.h"
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/gl/Renderer.cpp
+1614368988 source:/home/matthias/Projets/Petroleum/src/gl/Renderer.cpp
 	"../../Petroleum.h"
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/gl/Texture.cpp
+1614368963 source:/home/matthias/Projets/Petroleum/src/gl/Texture.cpp
 	"../../Petroleum.h"
 	"../../include/stb_image.h"
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/gl/VertexArray.cpp
+1614368966 source:/home/matthias/Projets/Petroleum/src/gl/VertexArray.cpp
 	"../../Petroleum.h"
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/gl/VertexBuffer.cpp
+1614368959 source:/home/matthias/Projets/Petroleum/src/gl/VertexBuffer.cpp
 	"../../Petroleum.h"
 
 1611449409 source:/home/matthias/Projets/Petroleum/src/gl/Shader.cpp
@@ -67,8 +68,9 @@
 	<glm/gtc/type_ptr.hpp>
 	"../../include/DefaultShaders.h"
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/other/ErrorFeedback.cpp
+1614389749 source:/home/matthias/Projets/Petroleum/src/other/ErrorFeedback.cpp
 	"../../Petroleum.h"
+	<AL/al.h>
 	<iostream>
 
 1611449409 source:/home/matthias/Projets/Petroleum/src/other/stb_image.cpp
@@ -78,7 +80,7 @@
 	<string>
 	<vector>
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/gl/Camera.cpp
+1614368940 source:/home/matthias/Projets/Petroleum/src/gl/Camera.cpp
 	"../../Petroleum.h"
 	<glm/gtc/matrix_transform.hpp>
 
@@ -102,6 +104,174 @@
 	<intrin.h>
 	<arm_neon.h>
 
-1611449409 source:/home/matthias/Projets/Petroleum/src/al/AudioCore.cpp
+1614380170 source:/home/matthias/Projets/Petroleum/src/al/AudioCore.cpp
 	"../../Petroleum.h"
+	"AL/al.h"
+	"AL/alc.h"
+
+1614390038 source:/home/matthias/Projets/Petroleum/src/al/Audio.cpp
+	"../../Petroleum.h"
+	"../../include/dr_wav.h"
+	"../../include/dr_flac.h"
+	<AL/al.h>
+	<cstring>
+
+1614358160 source:/home/matthias/Projets/Petroleum/src/al/dr_wav.cpp
+	"../../include/dr_wav.h"
+
+1614356263 /home/matthias/Projets/Petroleum/include/dr_wav.h
+	"dr_wav.h"
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<stdio.h>
+	<wchar.h>
+	<assert.h>
+	<errno.h>
+
+1614360273 /home/matthias/Projets/Petroleum/include/miniaudio.h
+	"miniaudio.h"
+	"miniaudio.h"
+	"extras/stb_vorbis.c"
+	"miniaudio.h"
+	"extras/stb_vorbis.c"
+	"extras/speex_resampler/ma_speex_resampler.h"
+	"extras/speex_resampler/ma_speex_resampler.h"
+	<pthread.h>
+	<stddef.h>
+	<assert.h>
+	<limits.h>
+	<math.h>
+	<stdarg.h>
+	<stdio.h>
+	<strings.h>
+	<wchar.h>
+	<windows.h>
+	<stdlib.h>
+	<string.h>
+	<sched.h>
+	<sys/time.h>
+	<sys/stat.h>
+	<emscripten/emscripten.h>
+	<stdint.h>
+	<immintrin.h>
+	<immintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<intrin.h>
+	<errno.h>
+	<stdint.h>
+	<intrin.h>
+	<objbase.h>
+	<mmreg.h>
+	<mmsystem.h>
+	<mach/mach_time.h>
+	<sys/types.h>
+	<unistd.h>
+	<dlfcn.h>
+	<audioclient.h>
+	<mmdeviceapi.h>
+	<mmdeviceapi.h>
+	<alsa/asoundlib.h>
+	<errno.h>
+	<pulse/pulseaudio.h>
+	<jack/jack.h>
+	<TargetConditionals.h>
+	<CoreAudio/CoreAudio.h>
+	<AVFoundation/AVFoundation.h>
+	<AudioToolbox/AudioToolbox.h>
+	<fcntl.h>
+	<sys/audioio.h>
+	<sys/soundcard.h>
+	<fcntl.h>
+	<poll.h>
+	<errno.h>
+	<sys/stat.h>
+	<sys/types.h>
+	<sys/ioctl.h>
+	<sys/audioio.h>
+	<sys/param.h>
+	<sys/ioctl.h>
+	<unistd.h>
+	<fcntl.h>
+	<sys/soundcard.h>
+	<SLES/OpenSLES.h>
+	<SLES/OpenSLES_Android.h>
+	<emscripten/emscripten.h>
+	<stddef.h>
+	<stddef.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<stdio.h>
+	<wchar.h>
+	<assert.h>
+	<errno.h>
+	<endian.h>
+	<stdlib.h>
+	<string.h>
+	<smmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<intrin.h>
+	<assert.h>
+	<intrin.h>
+	<stdio.h>
+	<wchar.h>
+	<errno.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<intrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<math.h>
+	<assert.h>
+	<stdio.h>
+	<wchar.h>
+	<errno.h>
+
+1614380976 source:/home/matthias/Projets/Petroleum/src/al/AudioListener.cpp
+	"../../Petroleum.h"
+	"AL/al.h"
+
+1614358160 source:/home/matthias/Projets/Petroleum/src/other/dr_wav.cpp
+	"../../include/dr_wav.h"
+
+1614388316 source:/home/matthias/Projets/Petroleum/src/other/dr.cpp
+	"../../include/dr_wav.h"
+	"../../include/dr_flac.h"
+
+1614382503 /home/matthias/Projets/Petroleum/include/dr_mp3.h
+	"dr_mp3.h"
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<intrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<math.h>
+	<assert.h>
+	<stdio.h>
+	<wchar.h>
+	<errno.h>
+
+1614382535 /home/matthias/Projets/Petroleum/include/dr_flac.h
+	"dr_flac.h"
+	<stddef.h>
+	<endian.h>
+	<stdlib.h>
+	<string.h>
+	<smmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<intrin.h>
+	<assert.h>
+	<intrin.h>
+	<stdio.h>
+	<wchar.h>
+	<errno.h>
 

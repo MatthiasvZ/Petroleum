@@ -48,6 +48,9 @@ void createDataFolder(const char* directory)
         cfg << "# Editing of this file should usally be done by, or using, the overlying game.\n";
         cfg << "# Whitespace and lines starting with hash symbols will be ignored.\n";
         cfg << "\n";
+        cfg << "# Petroleum Version\n";
+        cfg << "version = " << PT_VERSION << "\n";
+        cfg << "\n";
         cfg << "# OpenGL Version X.x\n";
         cfg << "opengl_major = 4\n";
         cfg << "\n";
@@ -75,6 +78,10 @@ void createDataFolder(const char* directory)
         cfg << "# Resizable Window (0 – 1)\n";
         cfg << "window_resizable = 0\n";
         cfg << "\n";
+        cfg << "# Print Status (0 – 1)\n";
+        cfg << "print_status = 0\n";
+        cfg << "\n";
+        cfg.close();
     }
 }
 
@@ -121,6 +128,7 @@ Config parseConfig()
 {
     Config result;
     result.fresh = g_Fresh;
+    result.version = PT_VERSION;
     result.opengl_major = 4;
     result.opengl_minor = 0;
     result.vsync = false;
@@ -130,6 +138,7 @@ Config parseConfig()
     result.enable_blending = false;
     result.capture_mouse = false;
     result.window_resizable = false;
+    result.print_status = true;
 
     std::fstream cfg;
     cfg.open("ptconfig");
@@ -151,7 +160,9 @@ Config parseConfig()
             auto name = line.substr(0, delimiterPos);
             auto value = line.substr(delimiterPos + 1);
 
-            if (name == "opengl_major")
+            if (name == "version")
+                setUInt(result.version, value, linenum);
+            else if (name == "opengl_major")
                 setUInt(result.opengl_major, value, linenum);
             else if (name == "opengl_minor")
                 setUInt(result.opengl_minor, value, linenum);
@@ -186,11 +197,21 @@ Config parseConfig()
                 setBool(result.capture_mouse, value, linenum);
             else if (name == "window_resizable")
                 setBool(result.window_resizable, value, linenum);
+            else if (name == "print_status")
+                setBool(result.print_status, value, linenum);
             else
                 fprintf(stderr, "(Petroleum) WARNING: Ignoring unknown config name in ptconfig (line %d)...\n", linenum);
         }
 
     }
+    cfg.close();
+
+    if (result.version != PT_VERSION)
+    {
+        printf("(Petroleum) Status: Updating config!\n");
+        saveConfig(result);
+    }
+
     return result;
 }
 
@@ -207,6 +228,9 @@ void saveConfig(Config cfg)
     cfgf << "# DO NOT EDIT unless you know what you are doing!!\n";
     cfgf << "# Editing of this file should usally be done by, or using, the overlying game.\n";
     cfgf << "# Whitespace and lines starting with hash symbols will be ignored.\n";
+    cfgf << "\n";
+    cfgf << "# Petroleum Version\n";
+    cfgf << "version = " << PT_VERSION << "\n";
     cfgf << "\n";
     cfgf << "# OpenGL Version X.x\n";
     cfgf << "opengl_major = " << cfg.opengl_major << "\n";
@@ -235,6 +259,11 @@ void saveConfig(Config cfg)
     cfgf << "# Resizable Window (0 – 1)\n";
     cfgf << "window_resizable = " << cfg.window_resizable << "\n";
     cfgf << "\n";
+    cfgf << "# Print Status (0 – 1)\n";
+    cfgf << "print_status = " << cfg.print_status << "\n";
+    cfgf << "\n";
+
+    cfgf.close();
 }
 
 }

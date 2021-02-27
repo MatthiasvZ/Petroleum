@@ -1,0 +1,3 @@
+include/stb_image.h linguist-vendored
+include/dr_wav.h linguist-vendored
+include/dr_flac.h linguist-vendored

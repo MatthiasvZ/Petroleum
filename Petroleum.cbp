@@ -46,6 +46,7 @@
 		</Compiler>
 		<Unit filename="Petroleum.h" />
 		<Unit filename="include/DefaultShaders.h" />
+		<Unit filename="src/al/Audio.cpp" />
 		<Unit filename="src/al/AudioCore.cpp" />
 		<Unit filename="src/gl/Camera.cpp" />
 		<Unit filename="src/gl/Geometry.cpp" />
@@ -59,6 +60,7 @@
 		<Unit filename="src/other/Core.cpp" />
 		<Unit filename="src/other/ErrorFeedback.cpp" />
 		<Unit filename="src/other/FileManagement.cpp" />
+		<Unit filename="src/other/dr.cpp" />
 		<Unit filename="src/other/stb_image.cpp" />
 		<Extensions>
 			<code_completion />

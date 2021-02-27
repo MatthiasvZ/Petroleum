@@ -1,12 +1,3 @@
-This program is available under the Unlicense. The same applies for stb-image.h.
-
-!!Note that GLFW and GLEW have their own licences, causing this
-program's compiled use when linked with GLFW and GLEW to be partially restricted by the
-following open-source licences: zlib/libpng, BSD, MIT. These licences
-will not be included in this repository, since the respective
-programs aren't either.!!
-
-
 THE UNLICENSE
 This is free and unencumbered software released into the public domain.
 

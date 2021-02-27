@@ -3,89 +3,126 @@
 namespace PT
 {
 
-IndexBuffer::IndexBuffer(const std::vector<unsigned int>& data)
-    : dataType {GL_UNSIGNED_INT}, count {data.size()}
+IndexBuffer::IndexBuffer(const std::vector<unsigned int>& data, unsigned int drawType)
+    : dataType {GL_UNSIGNED_INT}, count {data.size()}, drawType(drawType)
 {
-    glGenBuffers(1, &iboID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_INT), data.data(), GL_DYNAMIC_DRAW);
+    PTGLEC(glGenBuffers(1, &iboID));
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID));
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_INT), data.data(), drawType));
     #ifdef DEBUG
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    unbindBuffer();
     #endif // DEBUG
 }
 
-IndexBuffer::IndexBuffer(const std::vector<unsigned short>& data)
-    : dataType {GL_UNSIGNED_SHORT}, count {data.size()}
+IndexBuffer::IndexBuffer(const std::vector<unsigned short>& data, unsigned int drawType)
+    : dataType {GL_UNSIGNED_SHORT}, count {data.size()}, drawType(drawType)
 {
-    glGenBuffers(1, &iboID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_SHORT), data.data(), GL_DYNAMIC_DRAW);
+    PTGLEC(glGenBuffers(1, &iboID));
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID));
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_SHORT), data.data(), drawType));
     #ifdef DEBUG
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    unbindBuffer();
     #endif // DEBUG
 }
 
-IndexBuffer::IndexBuffer(const std::vector<unsigned char>& data)
-    : dataType {GL_UNSIGNED_BYTE}, count {data.size()}
+IndexBuffer::IndexBuffer(const std::vector<unsigned char>& data, unsigned int drawType)
+    : dataType {GL_UNSIGNED_BYTE}, count {data.size()}, drawType(drawType)
 {
-    glGenBuffers(1, &iboID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_BYTE), data.data(), GL_DYNAMIC_DRAW);
+    PTGLEC(glGenBuffers(1, &iboID));
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID));
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_BYTE), data.data(), drawType));
     #ifdef DEBUG
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    unbindBuffer();
     #endif // DEBUG
 }
 
-IndexBuffer::IndexBuffer(const unsigned int data[], unsigned int size)
-    : dataType {GL_UNSIGNED_INT}, count {size / sizeof(GL_UNSIGNED_INT)}
+IndexBuffer::IndexBuffer(const unsigned int data[], unsigned int size, unsigned int drawType)
+    : dataType {GL_UNSIGNED_INT}, count {size / sizeof(GL_UNSIGNED_INT)}, drawType(drawType)
 {
-    glGenBuffers(1, &iboID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+    PTGLEC(glGenBuffers(1, &iboID));
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID));
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawType));
     #ifdef DEBUG
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    unbindBuffer();
     #endif // DEBUG
 }
 
-IndexBuffer::IndexBuffer(const unsigned short data[], unsigned int size)
-    : dataType {GL_UNSIGNED_SHORT}, count {size / sizeof(GL_UNSIGNED_SHORT)}
+IndexBuffer::IndexBuffer(const unsigned short data[], unsigned int size, unsigned int drawType)
+    : dataType {GL_UNSIGNED_SHORT}, count {size / sizeof(GL_UNSIGNED_SHORT)}, drawType(drawType)
 {
-    glGenBuffers(1, &iboID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+    PTGLEC(glGenBuffers(1, &iboID));
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID));
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawType));
     #ifdef DEBUG
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    unbindBuffer();
     #endif // DEBUG
 }
 
-IndexBuffer::IndexBuffer(const unsigned char data[], unsigned int size)
-    : dataType {GL_UNSIGNED_BYTE}, count {size / sizeof(GL_UNSIGNED_BYTE)}
+IndexBuffer::IndexBuffer(const unsigned char data[], unsigned int size, unsigned int drawType)
+    : dataType {GL_UNSIGNED_BYTE}, count {size / sizeof(GL_UNSIGNED_BYTE)}, drawType(drawType)
 {
-    glGenBuffers(1, &iboID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+    PTGLEC(glGenBuffers(1, &iboID));
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID));
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawType));
     #ifdef DEBUG
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    unbindBuffer();
     #endif // DEBUG
 }
 
 void IndexBuffer::bindBuffer() const
 {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID));
 }
 
 void IndexBuffer::unbindBuffer() const
 {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    PTGLEC(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
+
+void IndexBuffer::updateData(const std::vector<unsigned int>& data)
+{
+    bindBuffer();
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_INT), data.data(), drawType));
+}
+
+void IndexBuffer::updateData(const std::vector<unsigned short>& data)
+{
+    bindBuffer();
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_SHORT), data.data(), drawType));
+}
+
+void IndexBuffer::updateData(const std::vector<unsigned char>& data)
+{
+    bindBuffer();
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GL_UNSIGNED_BYTE), data.data(), drawType));
+}
+
+void IndexBuffer::updateData(const unsigned int data[], unsigned int size)
+{
+    bindBuffer();
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawType));
+}
+
+void IndexBuffer::updateData(const unsigned short data[], unsigned int size)
+{
+    bindBuffer();
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawType));
+}
+
+void IndexBuffer::updateData(const unsigned char data[], unsigned int size)
+{
+    bindBuffer();
+    PTGLEC(glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawType));
+}
+
 
 void IndexBuffer::remove()
 {
-    glDeleteBuffers(1, &iboID);
+    PTGLEC(glDeleteBuffers(1, &iboID));
 }
 
 IndexBuffer::~IndexBuffer()
 {
-    //glDeleteBuffers(1, &iboID);
+
 }
 }

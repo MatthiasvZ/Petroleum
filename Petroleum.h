@@ -39,6 +39,9 @@
 #define PT_GREY 5
 #define PT_DARK_GREY 6
 
+#define PT_VERSION_S "0.3.99-dev"
+#define PT_VERSION   3'99 // 1.2.5 = 1'02'05
+
 namespace PT
 {
 
@@ -50,6 +53,7 @@ struct Config
 {
     bool fresh {true};
 
+    unsigned int version {PT_VERSION};
     unsigned int opengl_major {4};
     unsigned int opengl_minor {0};
     bool vsync {false};
@@ -59,6 +63,7 @@ struct Config
     bool enable_blending {true};
     bool capture_mouse {false};
     bool window_resizable {false};
+    bool print_status {true};
 };
 Config parseConfig();
 void saveConfig(Config cfg);
@@ -68,12 +73,78 @@ void saveConfig(Config cfg);
 void initGL();
 void initGL(Config cfg);
 void doEvents();
+void printVersion();
 
 
 // ERROR HANDLING
-void clearGlErrors();
-void getGlErrors();
 
+struct DebugInfo
+{
+    std::string call;
+    int line = 0;
+    std::string func;
+    std::string file;
+};
+
+void clearGlErrors();
+void getGlErrors(DebugInfo* dbi = nullptr);
+void clearAlErrors();
+void getAlErrors(DebugInfo* dbi = nullptr);
+
+#ifdef DEBUG
+#define GLEC(FUNCTION_CALL)\
+FUNCTION_CALL;\
+{\
+DebugInfo pt_dbi_;\
+pt_dbi_.call = #FUNCTION_CALL;\
+pt_dbi_.line = __LINE__;\
+pt_dbi_.func = __func__;\
+pt_dbi_.file = __FILE__;\
+PT::getGlErrors(&pt_dbi_);\
+}
+
+#define PTGLEC(FUNCTION_CALL)\
+FUNCTION_CALL;\
+{\
+DebugInfo pt_dbi_;\
+pt_dbi_.call = #FUNCTION_CALL;\
+pt_dbi_.func = __func__;\
+PT::getGlErrors(&pt_dbi_);\
+}
+
+#define ALEC(FUNCTION_CALL)\
+FUNCTION_CALL;\
+{\
+DebugInfo pt_dbi_;\
+pt_dbi_.call = #FUNCTION_CALL;\
+pt_dbi_.line = __LINE__;\
+pt_dbi_.func = __func__;\
+pt_dbi_.file = __FILE__;\
+PT::getAlErrors(&pt_dbi_);\
+}
+
+#define PTALEC(FUNCTION_CALL)\
+FUNCTION_CALL;\
+{\
+DebugInfo pt_dbi_;\
+pt_dbi_.call = #FUNCTION_CALL;\
+pt_dbi_.func = __func__;\
+PT::getAlErrors(&pt_dbi_);\
+}
+
+#else
+#define GLEC(FUNCTION_CALL)\
+FUNCTION_CALL;
+
+#define PTGLEC(FUNCTION_CALL)\
+FUNCTION_CALL;
+
+#define ALEC(FUNCTION_CALL)\
+FUNCTION_CALL;
+
+#define PTALEC(FUNCTION_CALL)\
+FUNCTION_CALL;
+#endif // DEBUG
 
 struct Input
 {
@@ -137,8 +208,6 @@ class Window
 
         virtual ~Window();
 
-    protected:
-
     private:
         GLFWwindow* window;
         void init();
@@ -152,44 +221,52 @@ class Window
 class IndexBuffer
 {
     public:
-        IndexBuffer(const std::vector<unsigned int>& data);
-        IndexBuffer(const std::vector<unsigned short>& data);
-        IndexBuffer(const std::vector<unsigned char>& data);
-        IndexBuffer(const unsigned int data[], unsigned int size);
-        IndexBuffer(const unsigned short data[], unsigned int size);
-        IndexBuffer(const unsigned char data[], unsigned int size);
+        IndexBuffer(const std::vector<unsigned int>& data, unsigned int drawType = GL_DYNAMIC_DRAW);
+        IndexBuffer(const std::vector<unsigned short>& data, unsigned int drawType = GL_DYNAMIC_DRAW);
+        IndexBuffer(const std::vector<unsigned char>& data, unsigned int drawType = GL_DYNAMIC_DRAW);
+        IndexBuffer(const unsigned int data[], unsigned int size, unsigned int drawType = GL_DYNAMIC_DRAW);
+        IndexBuffer(const unsigned short data[], unsigned int size, unsigned int drawType = GL_DYNAMIC_DRAW);
+        IndexBuffer(const unsigned char data[], unsigned int size, unsigned int drawType = GL_DYNAMIC_DRAW);
         void bindBuffer() const;
         void unbindBuffer() const;
+        void updateData(const std::vector<unsigned int>& data);
+        void updateData(const std::vector<unsigned short>& data);
+        void updateData(const std::vector<unsigned char>& data);
+        void updateData(const unsigned int data[], unsigned int size);
+        void updateData(const unsigned short data[], unsigned int size);
+        void updateData(const unsigned char data[], unsigned int size);
         inline unsigned int getIboID() const { return iboID; }
         inline unsigned int getCount() const { return count; }
         inline unsigned int getDataType() const { return dataType; }
+        inline void setDrawType(unsigned int drawType) { this->drawType = drawType; }
         void remove();
         ~IndexBuffer();
-
-    protected:
 
     private:
         unsigned int iboID;
         unsigned int dataType;
         long unsigned int count;
+        unsigned int drawType;
 };
 
 
 class VertexBuffer
 {
     public:
-        VertexBuffer(const std::vector<float>& data);
-        VertexBuffer(const float data[], unsigned int size);
+        VertexBuffer(const std::vector<float>& data, unsigned int drawType = GL_DYNAMIC_DRAW);
+        VertexBuffer(const float data[], unsigned int size, unsigned int drawType = GL_DYNAMIC_DRAW);
         void bindBuffer() const;
         void unbindBuffer() const;
+        void updateData(const std::vector<float>& data);
+        void updateData(const float data[], unsigned int size);
         inline unsigned int getVboID() const { return vboID; }
+        inline void setDrawType(unsigned int drawType) { this->drawType = drawType; }
         void remove();
         ~VertexBuffer();
 
-    protected:
-
     private:
         unsigned int vboID;
+        unsigned int drawType;
 };
 
 
@@ -269,9 +346,6 @@ class Shader
 
         inline VertexBufferLayout getLayout() { return layout; }
 
-
-    protected:
-
     private:
         unsigned int programID;
         VertexBufferLayout layout;
@@ -291,8 +365,6 @@ class VertexArray
         void remove();
         ~VertexArray();
 
-    protected:
-
     private:
         unsigned int vaoID;
 };
@@ -311,8 +383,6 @@ class Texture
         inline int getWidth() const {return width;}
         inline int getHeight() const {return height;}
         inline int getBPP() const {return bPP;}
-
-    protected:
 
     private:
         unsigned int texID;
@@ -366,6 +436,35 @@ void clearScreen();
 void drawVA(const VertexArray& vao, const IndexBuffer& ibo);
 void drawVA(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader);
 void drawTexture(const VertexArray& vao, const IndexBuffer& ibo, Shader& shader, int texSlot);
+
+
+// AUDIO
+
+void initAL();
+
+class Audio
+{
+    public:
+        Audio(const char* file);
+        ~Audio();
+
+        void play();
+        void stop();
+
+        void setPos(float x, float y, float z);
+
+        bool isPlaying();
+
+    private:
+        unsigned int channels;
+        unsigned int sampleRate;
+        unsigned long long int totalPCMFrameCount;
+
+        std::vector<int16_t> data;
+        unsigned int soundBuffer;
+
+        unsigned int soundSource;
+};
 
 
 // Template vertices

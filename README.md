@@ -3,14 +3,14 @@ Petroleum is a library with the intent of making it faster to create games or ot
 
 **It should however, right now that is, NOT be used by anyone that isn't me. It's at its very early stages, bug-prone and absolutely not user-friendly or even properly documented.**
 
-The code **should** be cross-platform, but since I don't have access to Windows, there is no way for me to check that. Therefore, the only officially supported platform is Linux.
+The code *might* be cross-platform, but since I don't have access to Windows, there is no way for me to check that. Therefore, the only officially supported platform is Linux.
 ## Building
 ### Prerequisites
-Recent versions of GLEW and GLFW need to be available for linking.
+Recent versions of GLFW, GLEW and OpenAL-Soft need to be available for linking.
 ```
-$ sudo apt-get install libglew-dev libglfw3-dev
-$ sudo pacman -S glew glfw-x11
-$ sudo emerge -av media-libs/glew media-libs/glfw
+$ sudo apt-get install libglew-dev libglfw3-dev libopenal-dev
+$ sudo pacman -S glew glfw-x11 openal
+$ sudo emerge -av media-libs/glew media-libs/glfw media-libs/openal
 ```
 ### Building the library
 The project may be build using either *make* or *Code::Blocks*.
@@ -19,9 +19,8 @@ The project may be build using either *make* or *Code::Blocks*.
 
 Alternatively, there are already compiled Linux versions in this repository's release section.
 ### Building a program using Petroleum (Linux)
-Programs using this library need to #include the *Petroleum.h* and link the *libPetroleum.a*, GLEW and GLFW as follows:
-
-```g++ main.cpp /path/to/libPetroleum.a $(pkg-config --libs glfw3 glew) -o prog```
+Programs using this library need to #include the *Petroleum.h*, and link the *libPetroleum.a*, GLEW, GLFW and OpenAL as follows:
+```g++ main.cpp /path/to/libPetroleum.a $(pkg-config --libs openal glfw3 glew) -ldl -lpthread -o prog```
 ## Features
 - Quickly initialising GLFW and GLEW with proper settings
 - Config system
@@ -33,6 +32,7 @@ The following open-source libraries are used:
 - **GLFW** for creating the window and context
 - **GLEW** for accessing the OpenGL functions
 - **stb-image** for reading in images such as textures
+- **dr_wav** and **dr_flac** for reading in audio files
 ## Examples
 ### Drawing a coloured rectangle
 ```
@@ -83,6 +83,6 @@ int main()
 }
 ```
 ## Licence
-This program is available under the Unlicense. The same applies for stb-image.h.
+This program is available under the Unlicense. The same applies for stb-image.h, dr_wav.h and dr_flac.
 
-**Note that GLFW and GLEW have their own licences, causing this program's compiled use when linked with GLFW and GLEW to be partially restricted by the following open-source licences: zlib/libpng, BSD, MIT.**
+**Note that GLFW and GLEW have other licences, causing this program's use when linking with GLFW and GLEW to be restricted by the following open-source licences: zlib/libpng, BSD, MIT.**
