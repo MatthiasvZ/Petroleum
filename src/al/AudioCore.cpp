@@ -21,4 +21,19 @@ void initAL()
     getAlErrors();
 }
 
+void setAlListenerPos(float x, float y, float z)
+{
+    PTALEC(alListener3f(AL_POSITION, x, y, z));
+}
+
+void setAlListenerVel(float x, float y, float z)
+{
+    PTALEC(alListener3f(AL_VELOCITY, x, y, z));
+}
+
+void setAlListenerOrientation(float* forwardAndUpVectors)
+{
+    PTALEC(alListenerfv(AL_ORIENTATION, forwardAndUpVectors));
+}
+
 }

@@ -73,6 +73,23 @@ void Audio::setPos(float x, float y, float z)
     PTALEC(alSource3f(soundSource, AL_POSITION, x, y, z));
 }
 
+void Audio::setVel(float x, float y, float z)
+{
+    if (channels > 1)
+        fprintf(stderr, "(Petroleum) WARNING: Trying to set the velocity of a stereo audio source. This has no effect!\n");
+    PTALEC(alSource3f(soundSource, AL_VELOCITY, x, y, z));
+}
+
+void Audio::setPitch(float n)
+{
+    PTALEC(alSourcef(soundSource, AL_PITCH, n));
+}
+
+void Audio::setGain(float n)
+{
+    PTALEC(alSourcef(soundSource, AL_GAIN, n));
+}
+
 bool Audio::isPlaying()
 {
     int sourceState;

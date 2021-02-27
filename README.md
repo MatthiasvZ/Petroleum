@@ -31,17 +31,17 @@ Programs using this library need to #include the *Petroleum.h*, and link the *li
 The following open-source libraries are used:
 - **GLFW** for creating the window and context
 - **GLEW** for accessing the OpenGL functions
-- **stb-image** for reading in images such as textures
+- **stb_image** for reading in images such as textures
 - **dr_wav** and **dr_flac** for reading in audio files
 ## Examples
 ### Drawing a coloured rectangle
 ```
 #include "Petroleum.h"
-#include <cstring>
+#include <string>
 
 int main()
 {
-    PT::setDataDir(strcat(std::getenv("HOME"), "/.local/share/petroleum"));
+    PT::setDataDir((std::getenv("HOME") + (std::string)"/.local/share/pt-sandbox").c_str());
     PT::Config cfg {PT::parseConfig()};
     
     PT::Window window(cfg);
@@ -85,4 +85,4 @@ int main()
 ## Licence
 This program is available under the Unlicense. The same applies for stb-image.h, dr_wav.h and dr_flac.
 
-**Note that GLFW and GLEW have other licences, causing this program's use when linking with GLFW and GLEW to be restricted by the following open-source licences: zlib/libpng, BSD, MIT.**
+*Note that GLFW and GLEW have other licences, causing programs linked with GLFW and GLEW to be restricted by the following open-source licences: zlib/libpng, BSD, MIT.*
