@@ -138,7 +138,7 @@ Config parseConfig()
     result.enable_blending = false;
     result.capture_mouse = false;
     result.window_resizable = false;
-    result.print_status = true;
+    result.print_status = false;
 
     std::fstream cfg;
     cfg.open("ptconfig");

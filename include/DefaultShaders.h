@@ -1,15 +1,12 @@
 #ifndef DEFAULTSHADERS_H
 #define DEFAULTSHADERS_H
 
-#include <string>
-#include <vector>
-
-std::vector<std::string> vertSources
+constexpr std::string_view vertSources[]
 {
 
 // vertXY
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 
@@ -21,7 +18,7 @@ void main()
 
 // vertXYUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in vec2 texCoords;
@@ -37,7 +34,7 @@ void main()
 
 // vertXYA
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in float alpha;
@@ -53,7 +50,7 @@ void main()
 
 // vertXYAUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in float alpha;
@@ -72,7 +69,7 @@ void main()
 
 // vertXYB
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in float brightness;
@@ -88,7 +85,7 @@ void main()
 
 // vertXYBUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in float brightness;
@@ -107,7 +104,7 @@ void main()
 
 // vertXYRGB
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in vec3 colour;
@@ -123,7 +120,7 @@ void main()
 
 // vertXYRGBUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in vec3 colour;
@@ -142,7 +139,7 @@ void main()
 
 // vertXYRGBA
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in vec4 colour;
@@ -158,7 +155,7 @@ void main()
 
 // vertXYRGBAUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 position;
 in vec4 colour;
@@ -175,59 +172,247 @@ void main()
 }
 )glsl",
 
-// vertXYZ_M
+// vertXY_M
 R"glsl(
-#version 400 core
+#version 150 core
 
-in vec3 position;
+in vec2 position;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYUV_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in vec2 texCoords;
+
+out vec2 f_TexCoords;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_TexCoords = texCoords;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYA_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in float alpha;
+
+out float f_Alpha;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Alpha = alpha;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYAUV_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in float alpha;
+in vec2 texCoords;
+
+out float f_Alpha;
+out vec2 f_TexCoords;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Alpha = alpha;
+    f_TexCoords = texCoords;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYB_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in float brightness;
+
+out float f_Brightness;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Brightness = brightness;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYBUV_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in float brightness;
+in vec2 texCoords;
+
+out float f_Brightness;
+out vec2 f_TexCoords;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Brightness = brightness;
+    f_TexCoords = texCoords;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYRGB_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in vec3 colour;
+
+out vec3 f_Colour;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Colour = colour;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYRGBUV_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in vec3 colour;
+in vec2 texCoords;
+
+out vec3 f_Colour;
+out vec2 f_TexCoords;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Colour = colour;
+    f_TexCoords = texCoords;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYRGBA_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in vec4 colour;
+
+out vec4 f_Colour;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Colour = colour;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl",
+
+// vertXYRGBAUV_M
+R"glsl(
+#version 150 core
+
+in vec2 position;
+in vec4 colour;
+in vec2 texCoords;
+
+out vec4 f_Colour;
+out vec2 f_TexCoords;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    f_Colour = colour;
+    f_TexCoords = texCoords;
+    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+}
+)glsl"
+
+// vertXYZ_M
+R"glsl(
+#version 150 core
+
+in vec3 position;
+
+uniform mat4 u_Mat;
+
+void main()
+{
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZUV_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in vec2 texCoords;
 
 out vec2 f_TexCoords;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_TexCoords = texCoords;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZA_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in float alpha;
 
 out float f_Alpha;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Alpha = alpha;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZAUV_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in float alpha;
@@ -236,37 +421,37 @@ in vec2 texCoords;
 out float f_Alpha;
 out vec2 f_TexCoords;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Alpha = alpha;
     f_TexCoords = texCoords;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZB_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in float brightness;
 
 out float f_Brightness;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Brightness = brightness;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZBUV_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in float brightness;
@@ -275,37 +460,37 @@ in vec2 texCoords;
 out float f_Brightness;
 out vec2 f_TexCoords;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Brightness = brightness;
     f_TexCoords = texCoords;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZRGB_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in vec3 colour;
 
 out vec3 f_Colour;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Colour = colour;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZRGBUV_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in vec3 colour;
@@ -314,37 +499,37 @@ in vec2 texCoords;
 out vec3 f_Colour;
 out vec2 f_TexCoords;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Colour = colour;
     f_TexCoords = texCoords;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZRGBA_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in vec4 colour;
 
 out vec4 f_Colour;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Colour = colour;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl",
 
 // vertXYZRGBAUV_M
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 position;
 in vec4 colour;
@@ -353,13 +538,13 @@ in vec2 texCoords;
 out vec4 f_Colour;
 out vec2 f_TexCoords;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Mat;
 
 void main()
 {
     f_Colour = colour;
     f_TexCoords = texCoords;
-    gl_Position = u_MVP * vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, position.z, 1.0f);
 }
 )glsl"
 
@@ -369,9 +554,9 @@ void main()
 std::vector<std::string> fragSources
 {
 
-// fragXY
+// fragWHITE
 R"glsl(
-#version 400 core
+#version 150 core
 
 out vec4 outColour;
 
@@ -381,9 +566,9 @@ void main()
 }
 )glsl",
 
-// fragXYUV
+// fragUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 f_TexCoords;
 
@@ -397,9 +582,9 @@ void main()
 }
 )glsl",
 
-// fragXYA
+// fragA
 R"glsl(
-#version 400 core
+#version 150 core
 
 in float f_Alpha;
 
@@ -411,9 +596,9 @@ void main()
 }
 )glsl",
 
-// fragXYAUV
+// fragAUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in float f_Alpha;
 in vec2 f_TexCoords;
@@ -429,9 +614,9 @@ void main()
 }
 )glsl",
 
-// fragXYB
+// fragB
 R"glsl(
-#version 400 core
+#version 150 core
 
 in float f_Brightness;
 
@@ -443,9 +628,9 @@ void main()
 }
 )glsl",
 
-// fragXYBUV
+// fragBUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in float f_Brightness;
 in vec2 f_TexCoords;
@@ -461,9 +646,9 @@ void main()
 }
 )glsl",
 
-// fragXYRGB
+// fragRGB
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec3 f_Colour;
 
@@ -475,9 +660,9 @@ void main()
 }
 )glsl",
 
-// fragXYRGBUV
+// fragRGBUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 f_TexCoords;
 in vec3 f_Colour;
@@ -493,9 +678,9 @@ void main()
 }
 )glsl",
 
-// fragXYRGBA
+// fragRGBA
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec4 f_Colour;
 
@@ -507,9 +692,9 @@ void main()
 }
 )glsl",
 
-// fragXYRGBAUV
+// fragRGBAUV
 R"glsl(
-#version 400 core
+#version 150 core
 
 in vec2 f_TexCoords;
 in vec4 f_Colour;

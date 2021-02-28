@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <glm/gtc/type_ptr.hpp>
+#include <string_view>
 
 namespace PT
 {
@@ -21,7 +22,7 @@ std::string readFromFile(const char* filePath)
         in.close();
         return contents;
     }
-    fprintf(stderr, "Couldn't read in shader file '%s'\n", filePath);
+    fprintf(stderr, "(Petroleum) ERROR: Couldn't read in shader file '%s'\n", filePath);
     return "";
 }
 
@@ -62,21 +63,21 @@ VertexBufferLayout Shader::createLayout(std::string vertexSource)
 Shader::Shader(unsigned int shaderName)
 {
     #include "../../include/DefaultShaders.h"
-    layout = createLayout(vertSources[shaderName]);
+    layout = createLayout(static_cast<std::string>(vertSources[shaderName]));
     programID = glCreateProgram();
-    unsigned int vertexShader = compileShader(vertSources[shaderName].c_str(), GL_VERTEX_SHADER);
-    unsigned int fragmentShader = compileShader(fragSources[shaderName % 10].c_str(), GL_FRAGMENT_SHADER);
+    unsigned int vertexShader = compileShader(static_cast<std::string>(vertSources[shaderName]).c_str(), GL_VERTEX_SHADER);
+    unsigned int fragmentShader = compileShader(static_cast<std::string>(fragSources[shaderName % 10]).c_str(), GL_FRAGMENT_SHADER);
 
-    glAttachShader(programID, vertexShader);
-    glAttachShader(programID, fragmentShader);
+    PTGLEC(glAttachShader(programID, vertexShader));
+    PTGLEC(glAttachShader(programID, fragmentShader));
 
-    glBindFragDataLocation(programID, 0, "outColour");
+    PTGLEC(glBindFragDataLocation(programID, 0, "outColour"));
 
-    glLinkProgram(programID);
-    glValidateProgram(programID);
+    PTGLEC(glLinkProgram(programID));
+    PTGLEC(glValidateProgram(programID));
 
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    PTGLEC(glDeleteShader(vertexShader));
+    PTGLEC(glDeleteShader(fragmentShader));
 }
 
 Shader::Shader(SourcePackage srcpkg)
@@ -86,33 +87,33 @@ Shader::Shader(SourcePackage srcpkg)
     unsigned int vertexShader = compileShader(srcpkg.vertex.c_str(), GL_VERTEX_SHADER);
     unsigned int fragmentShader = compileShader(srcpkg.fragment.c_str(), GL_FRAGMENT_SHADER);
 
-    glAttachShader(programID, vertexShader);
-    glAttachShader(programID, fragmentShader);
+    PTGLEC(glAttachShader(programID, vertexShader));
+    PTGLEC(glAttachShader(programID, fragmentShader));
 
-    glBindFragDataLocation(programID, 0, "outColour");
+    PTGLEC(glBindFragDataLocation(programID, 0, "outColour"));
 
-    glLinkProgram(programID);
-    glValidateProgram(programID);
+    PTGLEC(glLinkProgram(programID));
+    PTGLEC(glValidateProgram(programID));
 
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    PTGLEC(glDeleteShader(vertexShader));
+    PTGLEC(glDeleteShader(fragmentShader));
 }
 
 unsigned int Shader::compileShader(const char* src, unsigned int type)
 {
-    unsigned int id = glCreateShader(type);
-    glShaderSource(id, 1, &src, nullptr);
-    glCompileShader(id);
+    unsigned int id = PTGLEC(glCreateShader(type));
+    PTGLEC(glShaderSource(id, 1, &src, nullptr));
+    PTGLEC(glCompileShader(id);
 
     int status;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+    PTGLEC(glGetShaderiv(id, GL_COMPILE_STATUS, &status));
     if (status != GL_TRUE)
     {
         std::cerr << "(Petroleum) ERROR: Couldn't compile " << \
                 (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << \
                 "Shader!\n";
         char buffer[1024];
-        glGetShaderInfoLog(id, 1024, NULL, buffer);
+        PTGLEC(glGetShaderInfoLog(id, 1024, NULL, buffer));
         printf("%s", buffer);
     }
     return id;
@@ -120,90 +121,112 @@ unsigned int Shader::compileShader(const char* src, unsigned int type)
 
 void Shader::bindShader() const
 {
-    glUseProgram(programID);
+    PTGLEC(glUseProgram(programID));
 }
 
 void Shader::unbindShader() const
 {
-    glUseProgram(GL_FALSE);
+    PTGLEC(glUseProgram(GL_FALSE));
 }
 
 
 void Shader::setUniform1i(const std::string& name, int v0)
 {
     bindShader();
-    glUniform1i(getUniformLocation(name), v0);
-    unbindShader();
+    PTGLEC(glUniform1i(getUniformLocation(name), v0)));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniform2i(const std::string& name, int v0, int v1)
 {
     bindShader();
-    glUniform2i(getUniformLocation(name), v0, v1);
-    unbindShader();
+    PTGLEC(glUniform2i(getUniformLocation(name), v0, v1));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniform3i(const std::string& name, int v0, int v1, int v2)
 {
     bindShader();
-    glUniform3i(getUniformLocation(name), v0, v1, v2);
-    unbindShader();
+    PTGLEC(glUniform3i(getUniformLocation(name), v0, v1, v2));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniform4i(const std::string& name, int v0, int v1, int v2, int v3)
 {
     bindShader();
-    glUniform4i(getUniformLocation(name), v0, v1, v2, v3);
-    unbindShader();
+    PTGLEC(glUniform4i(getUniformLocation(name), v0, v1, v2, v3));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniform1f(const std::string& name, float v0)
 {
     bindShader();
-    glUniform1f(getUniformLocation(name), v0);
-    unbindShader();
+    PTGLEC(glUniform1f(getUniformLocation(name), v0));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniform2f(const std::string& name, float v0, float v1)
 {
     bindShader();
-    glUniform2f(getUniformLocation(name), v0, v1);
-    unbindShader();
+    PTGLEC(glUniform2f(getUniformLocation(name), v0, v1));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniform3f(const std::string& name, float v0, float v1, float v2)
 {
     bindShader();
-    glUniform3f(getUniformLocation(name), v0, v1, v2);
-    unbindShader();
+    PTGLEC(glUniform3f(getUniformLocation(name), v0, v1, v2));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
     bindShader();
-    glUniform4f(getUniformLocation(name), v0, v1, v2, v3);
-    unbindShader();
+    PTGLEC(glUniform4f(getUniformLocation(name), v0, v1, v2, v3));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniformMat2f(const std::string& name, const glm::mat2& mat)
 {
     bindShader();
-    glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
-    unbindShader();
+    PTGLEC(glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat)));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniformMat3f(const std::string& name, const glm::mat3& mat)
 {
     bindShader();
-    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
-    unbindShader();
+    PTGLEC(glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat)));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 void Shader::setUniformMat4f(const std::string& name, const glm::mat4& mat)
 {
     bindShader();
-    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
-    unbindShader();
+    PTGLEC(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat)));
+    #ifdef DEBUG
+        unbindShader();
+    #endif // DEBUG
 }
 
 int Shader::getUniformLocation(const std::string& name)
@@ -211,7 +234,7 @@ int Shader::getUniformLocation(const std::string& name)
     if (uniformLocationCache.find(name) != uniformLocationCache.end())
         return uniformLocationCache[name];
 
-    int location = glGetUniformLocation(programID, name.c_str());
+    int location = PTGLEC(glGetUniformLocation(programID, name.c_str()));
     #ifdef DEBUG
     if (location == -1)
         std::cerr << "Warning: uniform '" << name << "' does not exist or got removed due to being unused inside of the shader!" << std::endl;
@@ -222,6 +245,6 @@ int Shader::getUniformLocation(const std::string& name)
 
 Shader::~Shader()
 {
-    glDeleteShader(programID);
+    PTGLEC(glDeleteShader(programID));
 }
 }

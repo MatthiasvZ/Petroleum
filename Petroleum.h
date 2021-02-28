@@ -20,16 +20,26 @@
 #define PT_SHADER_XYRGBUV 7
 #define PT_SHADER_XYRGBA 8
 #define PT_SHADER_XYRGBAUV 9
-#define PT_SHADER_XYZ_M 10
-#define PT_SHADER_XYZUV_M 11
-#define PT_SHADER_XYZA_M 12
-#define PT_SHADER_XYZAUV_M 13
-#define PT_SHADER_XYZB_M 14
-#define PT_SHADER_XYZBUV_M 15
-#define PT_SHADER_XYZRGB_M 16
-#define PT_SHADER_XYZRGBUV_M 17
-#define PT_SHADER_XYZRGBA_M 18
-#define PT_SHADER_XYZRGBAUV_M 19
+#define PT_SHADER_XY_M 10
+#define PT_SHADER_XYUV_M 11
+#define PT_SHADER_XYA_M 12
+#define PT_SHADER_XYAUV_M 13
+#define PT_SHADER_XYB_M 14
+#define PT_SHADER_XYBUV_M 15
+#define PT_SHADER_XYRGB_M 16
+#define PT_SHADER_XYRGBUV_M 17
+#define PT_SHADER_XYRGBA_M 18
+#define PT_SHADER_XYRGBAUV_M 19
+#define PT_SHADER_XYZ_M 20
+#define PT_SHADER_XYZUV_M 21
+#define PT_SHADER_XYZA_M 22
+#define PT_SHADER_XYZAUV_M 23
+#define PT_SHADER_XYZB_M 24
+#define PT_SHADER_XYZBUV_M 25
+#define PT_SHADER_XYZRGB_M 26
+#define PT_SHADER_XYZRGBUV_M 27
+#define PT_SHADER_XYZRGBA_M 28
+#define PT_SHADER_XYZRGBAUV_M 29
 
 #define PT_BLACK 0
 #define PT_WHITE 1
@@ -39,8 +49,8 @@
 #define PT_GREY 5
 #define PT_DARK_GREY 6
 
-#define PT_VERSION_S "0.4.0-alpha"
-#define PT_VERSION   4'00 // 1.2.5 = 1'02'05
+#define PT_VERSION_S "0.4.90-dev"
+#define PT_VERSION   4'90 // 1.2.5 = 1'02'05
 
 namespace PT
 {
@@ -63,7 +73,7 @@ struct Config
     bool enable_blending {true};
     bool capture_mouse {false};
     bool window_resizable {false};
-    bool print_status {true};
+    bool print_status {false};
 };
 Config parseConfig();
 void saveConfig(Config cfg);
@@ -481,12 +491,172 @@ std::vector<float> tVertsSquareXYUV(float posX, float posY, float size, bool cen
 std::vector<float> tVertsCubeXYZ(float posX, float posY, float posZ, float size, bool centred = false, bool shortened = true);
 std::vector<float> tVertsCubeXYZUV(float posX, float posY, float posZ, float size, bool centred = false, bool shortened = true);
 
-template <typename T> std::vector<T> tIndsTriangles(T count);
-template <typename T> std::vector<T> tIndsSquares(T count);
-template <typename T> std::vector<T> tIndsCubes(T count, bool shortened = true);
-template <typename T> std::vector<T> tIndsTexturedCubes(T count, bool shortened = true);
-
 std::vector<float> xyToXyz(const std::vector<float>& vertices2d, unsigned int vertexSize, float z = 1.0f);
+
+// Apparently, you can't prototype template funcs, lmao
+template <typename T>
+inline std::vector<T> tIndsTriangles(T count)
+{
+    std::vector<T> result(3 * count);
+    for (int i {0}; i < count; ++i)
+    {
+        result.push_back(0 + 3*i);
+        result.push_back(1 + 3*i);
+        result.push_back(2 + 3*i);
+    }
+    return result;
+}
+
+template <typename T>
+inline std::vector<T> tIndsSquares(T count)
+{
+    std::vector<T> result(6 * count);
+    for (int i {0}; i < count; ++i)
+    {
+        result.push_back(0 + 4*i);
+        result.push_back(1 + 4*i);
+        result.push_back(2 + 4*i);
+
+        result.push_back(0 + 4*i);
+        result.push_back(2 + 4*i);
+        result.push_back(3 + 4*i);
+    }
+    return result;
+}
+
+template <typename T>
+inline std::vector<T> tIndsCubes(T count, bool shortened = true)
+{
+    if (shortened)
+    {
+        std::vector<T> result(36 * count);
+        for (int i {0}; i < count; ++i)
+        {
+            result.push_back(0 + 8*i);
+            result.push_back(1 + 8*i);
+            result.push_back(2 + 8*i);
+
+            result.push_back(1 + 8*i);
+            result.push_back(2 + 8*i);
+            result.push_back(3 + 8*i);
+
+
+            result.push_back(4 + 8*i);
+            result.push_back(5 + 8*i);
+            result.push_back(6 + 8*i);
+
+            result.push_back(5 + 8*i);
+            result.push_back(6 + 8*i);
+            result.push_back(7 + 8*i);
+
+
+            result.push_back(0 + 8*i);
+            result.push_back(1 + 8*i);
+            result.push_back(4 + 8*i);
+
+            result.push_back(1 + 8*i);
+            result.push_back(4 + 8*i);
+            result.push_back(5 + 8*i);
+
+
+            result.push_back(2 + 8*i);
+            result.push_back(3 + 8*i);
+            result.push_back(6 + 8*i);
+
+            result.push_back(3 + 8*i);
+            result.push_back(6 + 8*i);
+            result.push_back(7 + 8*i);
+
+
+            result.push_back(0 + 8*i);
+            result.push_back(2 + 8*i);
+            result.push_back(4 + 8*i);
+
+            result.push_back(2 + 8*i);
+            result.push_back(4 + 8*i);
+            result.push_back(6 + 8*i);
+
+
+            result.push_back(1 + 8*i);
+            result.push_back(3 + 8*i);
+            result.push_back(5 + 8*i);
+
+            result.push_back(3 + 8*i);
+            result.push_back(5 + 8*i);
+            result.push_back(7 + 8*i);
+        }
+        return result;
+    }
+    else
+        return tIndsSquares<T>(6);
+}
+
+template <typename T>
+inline std::vector<T> tIndsTexturedCubes(T count, bool shortened = true)
+{
+    if (shortened)
+    {
+        std::vector<T> result(36 * count);
+        for (int i {0}; i < count; ++i)
+        {
+            result.push_back(0 + 12*i);
+            result.push_back(1 + 12*i);
+            result.push_back(2 + 12*i);
+
+            result.push_back(1 + 12*i);
+            result.push_back(2 + 12*i);
+            result.push_back(3 + 12*i);
+
+
+            result.push_back(4 + 12*i);
+            result.push_back(5 + 12*i);
+            result.push_back(6 + 12*i);
+
+            result.push_back(5 + 12*i);
+            result.push_back(6 + 12*i);
+            result.push_back(7 + 12*i);
+
+
+            result.push_back(8 + 12*i);
+            result.push_back(1 + 12*i);
+            result.push_back(9 + 12*i);
+
+            result.push_back(1 + 12*i);
+            result.push_back(9 + 12*i);
+            result.push_back(5 + 12*i);
+
+
+            result.push_back(10 + 12*i);
+            result.push_back(3 + 12*i);
+            result.push_back(11 + 12*i);
+
+            result.push_back(3 + 12*i);
+            result.push_back(11 + 12*i);
+            result.push_back(7 + 12*i);
+
+
+            result.push_back(0 + 12*i);
+            result.push_back(2 + 12*i);
+            result.push_back(4 + 12*i);
+
+            result.push_back(2 + 12*i);
+            result.push_back(4 + 12*i);
+            result.push_back(6 + 12*i);
+
+
+            result.push_back(1 + 12*i);
+            result.push_back(3 + 12*i);
+            result.push_back(5 + 12*i);
+
+            result.push_back(3 + 12*i);
+            result.push_back(5 + 12*i);
+            result.push_back(7 + 12*i);
+        }
+        return result;
+    }
+    else
+        return tIndsSquares<T>(6);
+}
 
 }
 

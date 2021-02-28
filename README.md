@@ -22,7 +22,7 @@ Alternatively, there are already compiled Linux versions in this repository's re
 Programs using this library need to #include the *Petroleum.h*, and link the *libPetroleum.a*, GLEW, GLFW and OpenAL as follows:
 ```g++ main.cpp /path/to/libPetroleum.a $(pkg-config --libs openal glfw3 glew) -ldl -lpthread -o prog```
 ## Features
-- Quickly initialising GLFW and GLEW with proper settings
+- Quickly loading GLFW and GLEW with proper settings
 - Config system
 - Classes for creating and using vertex- and index buffers, vertex arrays and shaders
   - There are some basic default shaders available
