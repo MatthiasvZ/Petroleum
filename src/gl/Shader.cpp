@@ -245,6 +245,7 @@ int Shader::getUniformLocation(const std::string& name)
 
 Shader::~Shader()
 {
-    PTGLEC(glDeleteShader(programID));
+    PTGLEC(glDeleteProgram(programID));
 }
+
 }

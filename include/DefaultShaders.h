@@ -12,7 +12,7 @@ in vec2 position;
 
 void main()
 {
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -28,7 +28,7 @@ out vec2 f_TexCoords;
 void main()
 {
     f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -44,7 +44,7 @@ out float f_Alpha;
 void main()
 {
     f_Alpha = alpha;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -63,7 +63,7 @@ void main()
 {
     f_Alpha = alpha;
     f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -79,7 +79,7 @@ out float f_Brightness;
 void main()
 {
     f_Brightness = brightness;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -98,7 +98,7 @@ void main()
 {
     f_Brightness = brightness;
     f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -114,7 +114,7 @@ out vec3 f_Colour;
 void main()
 {
     f_Colour = colour;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -133,7 +133,7 @@ void main()
 {
     f_Colour = colour;
     f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -149,7 +149,7 @@ out vec4 f_Colour;
 void main()
 {
     f_Colour = colour;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -168,7 +168,7 @@ void main()
 {
     f_Colour = colour;
     f_TexCoords = texCoords;
-    gl_Position = vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -182,7 +182,7 @@ uniform mat4 u_Mat;
 
 void main()
 {
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -200,7 +200,7 @@ uniform mat4 u_Mat;
 void main()
 {
     f_TexCoords = texCoords;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -218,7 +218,7 @@ uniform mat4 u_Mat;
 void main()
 {
     f_Alpha = alpha;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -239,7 +239,7 @@ void main()
 {
     f_Alpha = alpha;
     f_TexCoords = texCoords;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -257,7 +257,7 @@ uniform mat4 u_Mat;
 void main()
 {
     f_Brightness = brightness;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -278,7 +278,7 @@ void main()
 {
     f_Brightness = brightness;
     f_TexCoords = texCoords;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -296,7 +296,7 @@ uniform mat4 u_Mat;
 void main()
 {
     f_Colour = colour;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -317,7 +317,7 @@ void main()
 {
     f_Colour = colour;
     f_TexCoords = texCoords;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -335,7 +335,7 @@ uniform mat4 u_Mat;
 void main()
 {
     f_Colour = colour;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl",
 
@@ -356,7 +356,7 @@ void main()
 {
     f_Colour = colour;
     f_TexCoords = texCoords;
-    gl_Position = u_Mat * vec4(position.x, position.y, 1.0f, 1.0f);
+    gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
 )glsl"
 

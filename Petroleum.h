@@ -49,8 +49,8 @@
 #define PT_GREY 5
 #define PT_DARK_GREY 6
 
-#define PT_VERSION_S "0.4.90-dev"
-#define PT_VERSION   4'90 // 1.2.5 = 1'02'05
+#define PT_VERSION_S "0.4.91-dev"
+#define PT_VERSION   4'91 // 1.2.5 = 1'02'05
 
 namespace PT
 {
@@ -384,7 +384,7 @@ class Texture
 {
     public:
         Texture(const std::string& path, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
-        Texture(unsigned char** image, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
+        Texture(unsigned long int bufferLength, const unsigned char* imageBuffer, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
         ~Texture();
 
         void bindTexture(unsigned int slot = 0) const;
