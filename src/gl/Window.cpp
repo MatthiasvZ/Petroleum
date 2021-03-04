@@ -8,7 +8,6 @@ void errorCallback(int error, const char* description)
     fprintf(stderr, "(Petroleum) GLFW Error (%d): %s\n", error, description);
 }
 
-Input input;
 bool fullscreen;
 int windowPosX, windowPosY;
 int focused {0};
@@ -20,42 +19,13 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         switch (key)
         {
         case GLFW_KEY_ESCAPE:  glfwSetWindowShouldClose(window, GLFW_TRUE); break;
-        case GLFW_KEY_LEFT_CONTROL: input.ctrlHeld = true;    break;
-        case GLFW_KEY_SPACE:        input.spaceHeld = true;     break;
-        case GLFW_KEY_LEFT_SHIFT:   input.leftShiftHeld = true;     break;
-        case GLFW_KEY_RIGHT_SHIFT:  input.rightShiftHeld = true;     break;
-        case GLFW_KEY_TAB:          input.tabHeld = true;
+        case GLFW_KEY_TAB:
                 if (mouseLocked)
                     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
                 if (!mouseLocked)
                     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
                 mouseLocked = !mouseLocked;
                 break;
-        case GLFW_KEY_Q:            input.qHeld   = true;     break;
-        case GLFW_KEY_W:            input.wHeld   = true;     break;
-        case GLFW_KEY_E:            input.eHeld   = true;     break;
-        case GLFW_KEY_R:            input.rHeld   = true;     break;
-        case GLFW_KEY_A:            input.aHeld   = true;     break;
-        case GLFW_KEY_S:            input.sHeld   = true;     break;
-        case GLFW_KEY_D:            input.dHeld   = true;     break;
-        case GLFW_KEY_F:            input.fHeld   = true;     break;
-        case GLFW_KEY_Y:            input.yHeld   = true;     break;
-        case GLFW_KEY_X:            input.xHeld   = true;     break;
-        case GLFW_KEY_C:            input.cHeld   = true;     break;
-        case GLFW_KEY_V:            input.vHeld   = true;     break;
-        case GLFW_KEY_DOWN:        input.downHeld = true;     break;
-        case GLFW_KEY_LEFT:        input.leftHeld = true;     break;
-        case GLFW_KEY_RIGHT:      input.rightHeld = true;     break;
-        case GLFW_KEY_UP:           input.upHeld  = true;     break;
-        case GLFW_KEY_KP_1:         input.kp1Held = true;     break;
-        case GLFW_KEY_KP_2:         input.kp2Held = true;     break;
-        case GLFW_KEY_KP_3:         input.kp3Held = true;     break;
-        case GLFW_KEY_KP_4:         input.kp4Held = true;     break;
-        case GLFW_KEY_KP_5:         input.kp5Held = true;     break;
-        case GLFW_KEY_KP_6:         input.kp6Held = true;     break;
-        case GLFW_KEY_KP_7:         input.kp7Held = true;     break;
-        case GLFW_KEY_KP_8:         input.kp8Held = true;     break;
-        case GLFW_KEY_KP_9:         input.kp9Held = true;     break;
         case GLFW_KEY_F11:
             if (!fullscreen)
             {
@@ -69,117 +39,6 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
                 fullscreen = false;
             }
         }
-    }
-    if (action == GLFW_RELEASE)
-    {
-        switch (key)
-        {
-        case GLFW_KEY_LEFT_CONTROL: input.ctrlHeld = false;   break;
-        case GLFW_KEY_SPACE:        input.spaceHeld = false;    break;
-        case GLFW_KEY_LEFT_SHIFT:   input.leftShiftHeld = false;    break;
-        case GLFW_KEY_RIGHT_SHIFT:  input.rightShiftHeld = false;    break;
-        case GLFW_KEY_TAB:          input.tabHeld = false;    break;
-        case GLFW_KEY_Q:            input.qHeld   = false;    break;
-        case GLFW_KEY_W:            input.wHeld   = false;    break;
-        case GLFW_KEY_E:            input.eHeld   = false;    break;
-        case GLFW_KEY_R:            input.rHeld   = false;    break;
-        case GLFW_KEY_A:            input.aHeld   = false;    break;
-        case GLFW_KEY_S:            input.sHeld   = false;    break;
-        case GLFW_KEY_D:            input.dHeld   = false;    break;
-        case GLFW_KEY_F:            input.fHeld   = false;    break;
-        case GLFW_KEY_Y:            input.yHeld   = false;    break;
-        case GLFW_KEY_X:            input.xHeld   = false;    break;
-        case GLFW_KEY_C:            input.cHeld   = false;    break;
-        case GLFW_KEY_V:            input.vHeld   = false;    break;
-        case GLFW_KEY_DOWN:        input.downHeld = false;    break;
-        case GLFW_KEY_LEFT:        input.leftHeld = false;    break;
-        case GLFW_KEY_RIGHT:      input.rightHeld = false;    break;
-        case GLFW_KEY_UP:           input.upHeld  = false;    break;
-        case GLFW_KEY_KP_1:         input.kp1Held = false;    break;
-        case GLFW_KEY_KP_2:         input.kp2Held = false;    break;
-        case GLFW_KEY_KP_3:         input.kp3Held = false;    break;
-        case GLFW_KEY_KP_4:         input.kp4Held = false;    break;
-        case GLFW_KEY_KP_5:         input.kp5Held = false;    break;
-        case GLFW_KEY_KP_6:         input.kp6Held = false;    break;
-        case GLFW_KEY_KP_7:         input.kp7Held = false;    break;
-        case GLFW_KEY_KP_8:         input.kp8Held = false;    break;
-        case GLFW_KEY_KP_9:         input.kp9Held = false;    break;
-        }
-    }
-}
-
-void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
-{
-    if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
-    {
-        input.mouse1 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
-    {
-        input.mouse1 = false;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS)
-    {
-        input.mouse2 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_RELEASE)
-    {
-        input.mouse2 = false;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_3 && action == GLFW_PRESS)
-    {
-        input.mouse3 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_3 && action == GLFW_RELEASE)
-    {
-        input.mouse3 = false;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_4 && action == GLFW_PRESS)
-    {
-        input.mouse4 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_4 && action == GLFW_RELEASE)
-    {
-        input.mouse4 = false;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_5 && action == GLFW_PRESS)
-    {
-        input.mouse5 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_5 && action == GLFW_RELEASE)
-    {
-        input.mouse5 = false;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_6 && action == GLFW_PRESS)
-    {
-        input.mouse6 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_6 && action == GLFW_RELEASE)
-    {
-        input.mouse6 = false;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_7 && action == GLFW_PRESS)
-    {
-        input.mouse7 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_7 && action == GLFW_RELEASE)
-    {
-        input.mouse7 = false;
-    }
-
-    if (button == GLFW_MOUSE_BUTTON_8 && action == GLFW_PRESS)
-    {
-        input.mouse8 = true;
-    }
-    if (button == GLFW_MOUSE_BUTTON_8 && action == GLFW_RELEASE)
-    {
-        input.mouse8 = false;
     }
 }
 
@@ -263,7 +122,6 @@ void Window::init()
     glfwSetKeyCallback(window, keyCallback);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     glfwSetErrorCallback(errorCallback);
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
 }
 
 bool Window::shouldRun() const
@@ -273,9 +131,14 @@ bool Window::shouldRun() const
     return true;
 }
 
-Input* Window::getInputs() const
+bool Window::getKey(int glfwKey) const
 {
-    return &input;
+    return glfwGetKey(window, glfwKey);
+}
+
+bool Window::getMouseButton(int glfwButton) const
+{
+    return glfwGetMouseButton(window, glfwButton);
 }
 
 int Window::focused() const
@@ -305,9 +168,6 @@ void Window::update()
         fps = 0;
     }
     fps++;
-
-    getCursorPos(&input.mouseX, &input.mouseY);
-
     glfwSwapBuffers(window);
 }
 

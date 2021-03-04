@@ -49,8 +49,8 @@
 #define PT_GREY 5
 #define PT_DARK_GREY 6
 
-#define PT_VERSION_S "0.4.91-dev"
-#define PT_VERSION   4'91 // 1.2.5 = 1'02'05
+#define PT_VERSION_S "0.4.92-dev"
+#define PT_VERSION   4'92 // 1.2.5 = 1'02'05
 
 namespace PT
 {
@@ -156,50 +156,6 @@ FUNCTION_CALL;
 FUNCTION_CALL;
 #endif // DEBUG
 
-struct Input
-{
-        bool ctrlHeld {false};
-        bool spaceHeld {false};
-        bool leftShiftHeld {false};
-        bool rightShiftHeld {false};
-        bool tabHeld {false};
-        bool qHeld {false};
-        bool wHeld {false};
-        bool eHeld {false};
-        bool rHeld {false};
-        bool aHeld {false};
-        bool sHeld {false};
-        bool dHeld {false};
-        bool fHeld {false};
-        bool yHeld {false};
-        bool xHeld {false};
-        bool cHeld {false};
-        bool vHeld {false};
-        bool downHeld {false};
-        bool leftHeld {false};
-        bool rightHeld {false};
-        bool upHeld {false};
-        bool kp1Held {false};
-        bool kp2Held {false};
-        bool kp3Held {false};
-        bool kp4Held {false};
-        bool kp5Held {false};
-        bool kp6Held {false};
-        bool kp7Held {false};
-        bool kp8Held {false};
-        bool kp9Held {false};
-        double mouseX {0.0};
-        double mouseY {0.0};
-        bool mouse1 {false};
-        bool mouse2 {false};
-        bool mouse3 {false};
-        bool mouse4 {false};
-        bool mouse5 {false};
-        bool mouse6 {false};
-        bool mouse7 {false};
-        bool mouse8 {false};
-};
-
 
 class Window
 {
@@ -207,7 +163,8 @@ class Window
         Window();
         Window(Config cfg);
         bool shouldRun() const;
-        Input* getInputs() const;
+        bool getKey(int glfwKey) const;
+        bool getMouseButton(int glfwButton) const;
         int focused() const;
         bool mouseLocked() const;
         void getCursorPos(double* p_X, double* p_Y);
@@ -406,7 +363,7 @@ class Camera
 {
     public:
         Camera(float x = 1.0f, float y = 1.0f, float z = 1.0f);
-        glm::mat4 update(float deltaTime, Input inputs);
+        glm::mat4 update(float deltaTime, bool (*getKey)(int glfwKey), void (*getCursorPos)(double* p_X, double* p_Y));
         inline void setClippingDistance(float s) { clippingDistance = s; }
         inline void setSpeedH(float s) { movFacH = s; }
         inline void setSpeedV(float s) { movFacV = s; }

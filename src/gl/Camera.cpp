@@ -10,44 +10,46 @@ Camera::Camera(float x, float y, float z)
 
 }
 
-glm::mat4 Camera::update(float deltaTime, Input inputs)
+glm::mat4 Camera::update(float deltaTime, bool (*getKey)(int glfwKey), void (*getCursorPos)(double* p_X, double* p_Y))
 {
     float movSpeedH = movFacH * deltaTime;
     float movSpeedV = movFacV * deltaTime;
 
-    if (inputs.ctrlHeld)
+    if (getKey(GLFW_KEY_LEFT_CONTROL))
         sprinting = true;
     else
         sprinting = false;
 
-    if (inputs.wHeld)
+    if (getKey(GLFW_KEY_W))
         camPos += movSpeedH * (sprinting + 1) * camFront;
-    if (inputs.sHeld)
+    if (getKey(GLFW_KEY_S))
         camPos -= movSpeedH * (sprinting + 1) * camFront;
-    if (inputs.aHeld)
+    if (getKey(GLFW_KEY_A))
         camPos -= movSpeedH * (sprinting + 1) * glm::normalize(glm::cross(camFront, glm::vec3(0.0f, 1.0f, 0.0f)));
-    if (inputs.dHeld)
+    if (getKey(GLFW_KEY_D))
         camPos += movSpeedH * (sprinting + 1) * glm::normalize(glm::cross(camFront, glm::vec3(0.0f, 1.0f, 0.0f)));
-    if (inputs.spaceHeld)
+    if (getKey(GLFW_KEY_SPACE))
         camPos.y += movSpeedV * (sprinting + 1);
-    if (inputs.leftShiftHeld)
+    if (getKey(GLFW_KEY_LEFT_SHIFT))
         camPos.y -= movSpeedV * (sprinting + 1);
 
-    if (inputs.kp5Held && !inputs.ctrlHeld)
+    if (getKey(GLFW_KEY_KP_5) && !getKey(GLFW_KEY_LEFT_CONTROL))
     {
         yaw = -90.0f;
         pitch = 0.0f;
     }
-    if (inputs.kp5Held && inputs.ctrlHeld)
+    if (getKey(GLFW_KEY_KP_5) && getKey(GLFW_KEY_LEFT_CONTROL))
     {
         camPos.x = 1.0f;
         camPos.y = 1.0f;
         camPos.z = 1.0f;
     }
 
+    double mouseX, mouseY;
+    getCursorPos(&mouseX, &mouseY);
 
-    yaw += (inputs.mouseX - lastMouseX) * turnSpeed;
-    pitch += (lastMouseY - inputs.mouseY) * turnSpeed;
+    yaw += (mouseX - lastMouseX) * turnSpeed;
+    pitch += (lastMouseY - mouseY) * turnSpeed;
     if (pitch > 89.99f)
         pitch = 89.99f;
     if (pitch < -89.99f)
@@ -57,8 +59,8 @@ glm::mat4 Camera::update(float deltaTime, Input inputs)
     camFront.y = sin(glm::radians(pitch));
     camFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 
-    lastMouseX = inputs.mouseX;
-    lastMouseY = inputs.mouseY;
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
 
 
     float vp[4];

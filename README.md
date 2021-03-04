@@ -82,6 +82,6 @@ int main()
 }
 ```
 ## Licence
-This program is available under the Unlicense. The same applies for stb-image.h, dr_wav.h and dr_flac.
+This program is available under the Unlicense. The same applies for stb-image.h, dr_wav.h and dr_flac.h.
 
 *Note that GLFW and GLEW have other licences, causing programs linked with GLFW and GLEW to be restricted by the following open-source licences: zlib/libpng, BSD, MIT.*
