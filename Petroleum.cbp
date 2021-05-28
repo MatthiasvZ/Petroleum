@@ -19,6 +19,7 @@
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
 					<Add directory="include/gl" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -33,6 +34,7 @@
 					<Add option="-Wall" />
 					<Add option="-Ofast" />
 					<Add directory="include/gl" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-flto" />
@@ -54,6 +56,7 @@
 		<Unit filename="src/gl/Renderer.cpp" />
 		<Unit filename="src/gl/Shader.cpp" />
 		<Unit filename="src/gl/Texture.cpp" />
+		<Unit filename="src/gl/TextureAtlas.cpp" />
 		<Unit filename="src/gl/VertexArray.cpp" />
 		<Unit filename="src/gl/VertexBuffer.cpp" />
 		<Unit filename="src/gl/Window.cpp" />
@@ -62,9 +65,6 @@
 		<Unit filename="src/other/FileManagement.cpp" />
 		<Unit filename="src/other/dr.cpp" />
 		<Unit filename="src/other/stb_image.cpp" />
-		<Extensions>
-			<code_completion />
-			<debugger />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

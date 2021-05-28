@@ -49,8 +49,8 @@
 #define PT_GREY 5
 #define PT_DARK_GREY 6
 
-#define PT_VERSION_S "0.4.92-dev"
-#define PT_VERSION   4'92 // 1.2.5 = 1'02'05
+#define PT_VERSION_S "0.4.93-dev"
+#define PT_VERSION   4'93 // 1.2.5 = 1'02'05
 
 namespace PT
 {
@@ -167,7 +167,7 @@ class Window
         bool getMouseButton(int glfwButton) const;
         int focused() const;
         bool mouseLocked() const;
-        void getCursorPos(double* p_X, double* p_Y);
+        void getCursorPos(double* p_X, double* p_Y) const;
         void update();
         void changeTitle(const std::string newTitle);
         void makeContextCurrent();
@@ -205,6 +205,7 @@ class IndexBuffer
         inline unsigned int getIboID() const { return iboID; }
         inline unsigned int getCount() const { return count; }
         inline unsigned int getDataType() const { return dataType; }
+        inline const void* getDataPointer() const { return data; }
         inline void setDrawType(unsigned int drawType) { this->drawType = drawType; }
         void remove();
         ~IndexBuffer();
@@ -214,6 +215,7 @@ class IndexBuffer
         unsigned int dataType;
         long unsigned int count;
         unsigned int drawType;
+        const void* data;
 };
 
 
@@ -235,14 +237,6 @@ class VertexBuffer
         unsigned int vboID;
         unsigned int drawType;
 };
-
-
-struct SourcePackage
-{
-    std::string vertex;
-    std::string fragment;
-};
-
 
 
 struct VertexBufferElement
@@ -289,6 +283,12 @@ class VertexBufferLayout
 
 std::string readFromFile(const char* filePath);
 
+struct SourcePackage
+{
+    std::string vertex;
+    std::string fragment;
+};
+
 class Shader
 {
     public:
@@ -311,6 +311,9 @@ class Shader
         void setUniformMat3f(const std::string& name, const glm::mat3& mat);
         void setUniformMat4f(const std::string& name, const glm::mat4& mat);
 
+        inline void setMat(const glm::mat4& mat) { setUniformMat4f("u_Mat", mat); }
+        inline void setTexSlot(int texSlot) { setUniform1i("u_TexSlot", texSlot); }
+
         inline VertexBufferLayout getLayout() { return layout; }
 
     private:
@@ -330,10 +333,12 @@ class VertexArray
         void bindArray() const;
         void unbindArray() const;
         void remove();
+        inline unsigned int getVBCount() const { return vbCount; }
         ~VertexArray();
 
     private:
         unsigned int vaoID;
+        unsigned int vbCount;
 };
 
 
@@ -342,7 +347,7 @@ class Texture
     public:
         Texture(const std::string& path, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
         Texture(unsigned long int bufferLength, const unsigned char* imageBuffer, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
-        ~Texture();
+        virtual ~Texture();
 
         void bindTexture(unsigned int slot = 0) const;
         void unbindTexture() const;
@@ -351,11 +356,33 @@ class Texture
         inline int getHeight() const {return height;}
         inline int getBPP() const {return bPP;}
 
-    private:
+    protected:
         unsigned int texID;
         std::string filePath;
         unsigned char* localBuffer;
         int width, height, bPP;
+};
+
+class TextureAtlas : public Texture
+{
+    public:
+        TextureAtlas(const std::string& path, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
+        TextureAtlas(unsigned long int bufferLength, const unsigned char* imageBuffer, const unsigned int& slot, unsigned int minFilter = GL_NEAREST_MIPMAP_NEAREST, unsigned int magFilter = GL_NEAREST);
+
+        inline void setIndexSize(float n) { indexSize = n; }
+
+        inline float getU1(float offset) { return offset * indexSize / width; }
+        inline float getU2(float offset) { return offset * indexSize / width; }
+        inline float getU3(float offset) { return (offset + 1) * indexSize / width; }
+        inline float getU4(float offset) { return (offset + 1) * indexSize / width; }
+
+        inline float getV1(float offset) { return offset * indexSize / height; }
+        inline float getV2(float offset) { return (offset + 1) * indexSize / height; }
+        inline float getV3(float offset) { return (offset + 1) * indexSize / height; }
+        inline float getV4(float offset) { return offset * indexSize / height; }
+
+    private:
+        float indexSize;
 };
 
 
@@ -363,7 +390,7 @@ class Camera
 {
     public:
         Camera(float x = 1.0f, float y = 1.0f, float z = 1.0f);
-        glm::mat4 update(float deltaTime, bool (*getKey)(int glfwKey), void (*getCursorPos)(double* p_X, double* p_Y));
+        glm::mat4 update(float deltaTime, const Window& window);
         inline void setClippingDistance(float s) { clippingDistance = s; }
         inline void setSpeedH(float s) { movFacH = s; }
         inline void setSpeedV(float s) { movFacV = s; }
@@ -402,6 +429,8 @@ class Camera
 void clearScreen();
 void drawVA(const VertexArray& vao, const IndexBuffer& ibo);
 void drawVA(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader);
+void drawMultiVA(const VertexArray& vao, const IndexBuffer* const* ibo);
+void drawMultiVA(const VertexArray& vao, const IndexBuffer* const* ibo, const Shader& shader);
 
 
 // AUDIO
@@ -448,14 +477,14 @@ std::vector<float> tVertsSquareXYUV(float posX, float posY, float size, bool cen
 std::vector<float> tVertsCubeXYZ(float posX, float posY, float posZ, float size, bool centred = false, bool shortened = true);
 std::vector<float> tVertsCubeXYZUV(float posX, float posY, float posZ, float size, bool centred = false, bool shortened = true);
 
-std::vector<float> xyToXyz(const std::vector<float>& vertices2d, unsigned int vertexSize, float z = 1.0f);
+std::vector<float> xyToXyz(const std::vector<float>& vertices2d, unsigned int vertexSize, float z = 0.0f);
 
 // Apparently, you can't prototype template funcs, lmao
 template <typename T>
 inline std::vector<T> tIndsTriangles(T count)
 {
     std::vector<T> result(3 * count);
-    for (int i {0}; i < count; ++i)
+    for (T i {0}; i < count; ++i)
     {
         result.push_back(0 + 3*i);
         result.push_back(1 + 3*i);
@@ -468,7 +497,7 @@ template <typename T>
 inline std::vector<T> tIndsSquares(T count)
 {
     std::vector<T> result(6 * count);
-    for (int i {0}; i < count; ++i)
+    for (T i {0}; i < count; ++i)
     {
         result.push_back(0 + 4*i);
         result.push_back(1 + 4*i);
@@ -487,7 +516,7 @@ inline std::vector<T> tIndsCubes(T count, bool shortened = true)
     if (shortened)
     {
         std::vector<T> result(36 * count);
-        for (int i {0}; i < count; ++i)
+        for (T i {0}; i < count; ++i)
         {
             result.push_back(0 + 8*i);
             result.push_back(1 + 8*i);
@@ -554,7 +583,7 @@ inline std::vector<T> tIndsTexturedCubes(T count, bool shortened = true)
     if (shortened)
     {
         std::vector<T> result(36 * count);
-        for (int i {0}; i < count; ++i)
+        for (T i {0}; i < count; ++i)
         {
             result.push_back(0 + 12*i);
             result.push_back(1 + 12*i);

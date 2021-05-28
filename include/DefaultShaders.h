@@ -1,12 +1,12 @@
 #ifndef DEFAULTSHADERS_H
 #define DEFAULTSHADERS_H
 
-constexpr std::string_view vertSources[]
+std::array<std::string, 30> vertSources
 {
 
-// vertXY
+// 0 vertXY
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 
@@ -16,9 +16,9 @@ void main()
 }
 )glsl",
 
-// vertXYUV
+// 1 vertXYUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec2 texCoords;
@@ -32,9 +32,9 @@ void main()
 }
 )glsl",
 
-// vertXYA
+// 2 vertXYA
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float alpha;
@@ -48,9 +48,9 @@ void main()
 }
 )glsl",
 
-// vertXYAUV
+// 3 vertXYAUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float alpha;
@@ -67,9 +67,9 @@ void main()
 }
 )glsl",
 
-// vertXYB
+// 4 vertXYB
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float brightness;
@@ -83,9 +83,9 @@ void main()
 }
 )glsl",
 
-// vertXYBUV
+// 5 vertXYBUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float brightness;
@@ -102,9 +102,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGB
+// 6 vertXYRGB
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec3 colour;
@@ -118,9 +118,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGBUV
+// 7 vertXYRGBUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec3 colour;
@@ -137,9 +137,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGBA
+// 8 vertXYRGBA
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec4 colour;
@@ -153,9 +153,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGBAUV
+// 9 vertXYRGBAUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec4 colour;
@@ -172,9 +172,9 @@ void main()
 }
 )glsl",
 
-// vertXY_M
+// 10 vertXY_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 
@@ -186,9 +186,9 @@ void main()
 }
 )glsl",
 
-// vertXYUV_M
+// 11 vertXYUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec2 texCoords;
@@ -204,9 +204,9 @@ void main()
 }
 )glsl",
 
-// vertXYA_M
+// 12 vertXYA_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float alpha;
@@ -222,9 +222,9 @@ void main()
 }
 )glsl",
 
-// vertXYAUV_M
+// 13 vertXYAUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float alpha;
@@ -243,9 +243,9 @@ void main()
 }
 )glsl",
 
-// vertXYB_M
+// 14 vertXYB_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float brightness;
@@ -261,9 +261,9 @@ void main()
 }
 )glsl",
 
-// vertXYBUV_M
+// 15 vertXYBUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in float brightness;
@@ -282,9 +282,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGB_M
+// 16 vertXYRGB_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec3 colour;
@@ -300,9 +300,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGBUV_M
+// 17 vertXYRGBUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec3 colour;
@@ -321,9 +321,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGBA_M
+// 18 vertXYRGBA_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec4 colour;
@@ -339,9 +339,9 @@ void main()
 }
 )glsl",
 
-// vertXYRGBAUV_M
+// 19 vertXYRGBAUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 position;
 in vec4 colour;
@@ -358,11 +358,11 @@ void main()
     f_TexCoords = texCoords;
     gl_Position = u_Mat * vec4(position.x, position.y, 0.0f, 1.0f);
 }
-)glsl"
+)glsl",
 
-// vertXYZ_M
+// 20 vertXYZ_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 
@@ -374,9 +374,9 @@ void main()
 }
 )glsl",
 
-// vertXYZUV_M
+// 21 vertXYZUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in vec2 texCoords;
@@ -392,9 +392,9 @@ void main()
 }
 )glsl",
 
-// vertXYZA_M
+// 22 vertXYZA_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in float alpha;
@@ -410,9 +410,9 @@ void main()
 }
 )glsl",
 
-// vertXYZAUV_M
+// 23 vertXYZAUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in float alpha;
@@ -431,9 +431,9 @@ void main()
 }
 )glsl",
 
-// vertXYZB_M
+// 24 vertXYZB_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in float brightness;
@@ -449,9 +449,9 @@ void main()
 }
 )glsl",
 
-// vertXYZBUV_M
+// 25 vertXYZBUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in float brightness;
@@ -470,9 +470,9 @@ void main()
 }
 )glsl",
 
-// vertXYZRGB_M
+// 26 vertXYZRGB_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in vec3 colour;
@@ -488,9 +488,9 @@ void main()
 }
 )glsl",
 
-// vertXYZRGBUV_M
+// 27 vertXYZRGBUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in vec3 colour;
@@ -509,9 +509,9 @@ void main()
 }
 )glsl",
 
-// vertXYZRGBA_M
+// 28 vertXYZRGBA_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in vec4 colour;
@@ -527,9 +527,9 @@ void main()
 }
 )glsl",
 
-// vertXYZRGBAUV_M
+// 29 vertXYZRGBAUV_M
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 position;
 in vec4 colour;
@@ -551,12 +551,12 @@ void main()
 };
 
 
-std::vector<std::string> fragSources
+std::array<std::string, 10> fragSources
 {
 
-// fragWHITE
+// *0 fragWHITE
 R"glsl(
-#version 150 core
+#version 400 core
 
 out vec4 outColour;
 
@@ -566,25 +566,25 @@ void main()
 }
 )glsl",
 
-// fragUV
+// *1 fragUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 f_TexCoords;
 
 out vec4 outColour;
 
-uniform sampler2D texSlot;
+uniform sampler2D u_TexSlot;
 
 void main()
 {
-    outColour = texture(texSlot, f_TexCoords);
+    outColour = texture(u_TexSlot, f_TexCoords);
 }
 )glsl",
 
-// fragA
+// *2 fragA
 R"glsl(
-#version 150 core
+#version 400 core
 
 in float f_Alpha;
 
@@ -596,27 +596,27 @@ void main()
 }
 )glsl",
 
-// fragAUV
+// *3 fragAUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in float f_Alpha;
 in vec2 f_TexCoords;
 
 out vec4 outColour;
 
-uniform sampler2D texSlot;
+uniform sampler2D u_TexSlot;
 
 void main()
 {
-    outColour = texture(texSlot, f_TexCoords) *
+    outColour = texture(u_TexSlot, f_TexCoords) *
     vec4(1.0f, 1.0f, 1.0f, f_Alpha);
 }
 )glsl",
 
-// fragB
+// *4 fragB
 R"glsl(
-#version 150 core
+#version 400 core
 
 in float f_Brightness;
 
@@ -628,27 +628,27 @@ void main()
 }
 )glsl",
 
-// fragBUV
+// *5 fragBUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in float f_Brightness;
 in vec2 f_TexCoords;
 
 out vec4 outColour;
 
-uniform sampler2D texSlot;
+uniform sampler2D u_TexSlot;
 
 void main()
 {
-    outColour = texture(texSlot, f_TexCoords)
-    * vec4(f_Brightness, f_Brightness, f_Brightness, 1.0f);
+    outColour = texture(u_TexSlot, f_TexCoords) *
+    vec4(f_Brightness, f_Brightness, f_Brightness, 1.0f);
 }
 )glsl",
 
-// fragRGB
+// *6 fragRGB
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec3 f_Colour;
 
@@ -660,27 +660,27 @@ void main()
 }
 )glsl",
 
-// fragRGBUV
+// *7 fragRGBUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 f_TexCoords;
 in vec3 f_Colour;
 
 out vec4 outColour;
 
-uniform sampler2D texSlot;
+uniform sampler2D u_TexSlot;
 
 void main()
 {
-    outColour = texture(texSlot, f_TexCoords) *
+    outColour = texture(u_TexSlot, f_TexCoords) *
     vec4(f_Colour.r, f_Colour.g, f_Colour.b, 1.0f);
 }
 )glsl",
 
-// fragRGBA
+// *8 fragRGBA
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec4 f_Colour;
 
@@ -692,20 +692,20 @@ void main()
 }
 )glsl",
 
-// fragRGBAUV
+// *9 fragRGBAUV
 R"glsl(
-#version 150 core
+#version 400 core
 
 in vec2 f_TexCoords;
 in vec4 f_Colour;
 
 out vec4 outColour;
 
-uniform sampler2D texSlot;
+uniform sampler2D u_TexSlot;
 
 void main()
 {
-    outColour = texture(texSlot, f_TexCoords) *
+    outColour = texture(u_TexSlot, f_TexCoords) *
     vec4(f_Colour.r, f_Colour.g, f_Colour.b, f_Colour.a);
 }
 )glsl"

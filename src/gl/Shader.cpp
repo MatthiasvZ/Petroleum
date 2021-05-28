@@ -1,4 +1,5 @@
 #include "../../Petroleum.h"
+#include "../../include/DefaultShaders.h"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -62,9 +63,9 @@ VertexBufferLayout Shader::createLayout(std::string vertexSource)
 
 Shader::Shader(unsigned int shaderName)
 {
-    #include "../../include/DefaultShaders.h"
     layout = createLayout(static_cast<std::string>(vertSources[shaderName]));
     programID = glCreateProgram();
+
     unsigned int vertexShader = compileShader(static_cast<std::string>(vertSources[shaderName]).c_str(), GL_VERTEX_SHADER);
     unsigned int fragmentShader = compileShader(static_cast<std::string>(fragSources[shaderName % 10]).c_str(), GL_FRAGMENT_SHADER);
 
@@ -101,6 +102,9 @@ Shader::Shader(SourcePackage srcpkg)
 
 unsigned int Shader::compileShader(const char* src, unsigned int type)
 {
+    if (strlen(src) == 0)
+        std::cerr << "(Petroleum) WARNING: Shader source is empty!" << std::endl;
+
     unsigned int id = PTGLEC(glCreateShader(type));
     PTGLEC(glShaderSource(id, 1, &src, nullptr));
     PTGLEC(glCompileShader(id);
@@ -237,7 +241,7 @@ int Shader::getUniformLocation(const std::string& name)
     int location = PTGLEC(glGetUniformLocation(programID, name.c_str()));
     #ifdef DEBUG
     if (location == -1)
-        std::cerr << "Warning: uniform '" << name << "' does not exist or got removed due to being unused inside of the shader!" << std::endl;
+        std::cerr << "(Petroleum) WARNING: uniform '" << name << "' does not exist or got removed due to being unused inside of the shader!" << std::endl;
     #endif
     uniformLocationCache[name] = location;
     return location;

@@ -18,7 +18,7 @@ LIBDIR =
 LIB = 
 LDFLAGS = 
 
-INC_DEBUG = $(INC) -Iinclude/gl
+INC_DEBUG = $(INC) -Iinclude/gl -Iinclude
 CFLAGS_DEBUG = $(CFLAGS) -Wall -Og -g -DDEBUG
 RESINC_DEBUG = $(RESINC)
 RCFLAGS_DEBUG = $(RCFLAGS)
@@ -29,7 +29,7 @@ OBJDIR_DEBUG = obj/Debug
 DEP_DEBUG = 
 OUT_DEBUG = bin/Debug/libPetroleum.a
 
-INC_RELEASE = $(INC) -Iinclude/gl
+INC_RELEASE = $(INC) -Iinclude/gl -Iinclude
 CFLAGS_RELEASE = $(CFLAGS) -flto -Wall -Ofast
 RESINC_RELEASE = $(RESINC)
 RCFLAGS_RELEASE = $(RCFLAGS)
@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/libPetroleum.a
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/gl/Texture.o $(OBJDIR_DEBUG)/src/other/stb_image.o $(OBJDIR_DEBUG)/src/other/dr.o $(OBJDIR_DEBUG)/src/other/FileManagement.o $(OBJDIR_DEBUG)/src/other/ErrorFeedback.o $(OBJDIR_DEBUG)/src/other/Core.o $(OBJDIR_DEBUG)/src/gl/Window.o $(OBJDIR_DEBUG)/src/gl/VertexBuffer.o $(OBJDIR_DEBUG)/src/gl/VertexArray.o $(OBJDIR_DEBUG)/src/gl/Shader.o $(OBJDIR_DEBUG)/src/gl/Renderer.o $(OBJDIR_DEBUG)/src/gl/IndexBuffer.o $(OBJDIR_DEBUG)/src/gl/Geometry.o $(OBJDIR_DEBUG)/src/gl/Camera.o $(OBJDIR_DEBUG)/src/al/AudioCore.o $(OBJDIR_DEBUG)/src/al/Audio.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/gl/Texture.o $(OBJDIR_DEBUG)/src/other/stb_image.o $(OBJDIR_DEBUG)/src/other/dr.o $(OBJDIR_DEBUG)/src/other/FileManagement.o $(OBJDIR_DEBUG)/src/other/ErrorFeedback.o $(OBJDIR_DEBUG)/src/other/Core.o $(OBJDIR_DEBUG)/src/gl/Window.o $(OBJDIR_DEBUG)/src/gl/VertexBuffer.o $(OBJDIR_DEBUG)/src/gl/VertexArray.o $(OBJDIR_DEBUG)/src/gl/TextureAtlas.o $(OBJDIR_DEBUG)/src/gl/Shader.o $(OBJDIR_DEBUG)/src/gl/Renderer.o $(OBJDIR_DEBUG)/src/gl/IndexBuffer.o $(OBJDIR_DEBUG)/src/gl/Geometry.o $(OBJDIR_DEBUG)/src/gl/Camera.o $(OBJDIR_DEBUG)/src/al/AudioCore.o $(OBJDIR_DEBUG)/src/al/Audio.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/gl/Texture.o $(OBJDIR_RELEASE)/src/other/stb_image.o $(OBJDIR_RELEASE)/src/other/dr.o $(OBJDIR_RELEASE)/src/other/FileManagement.o $(OBJDIR_RELEASE)/src/other/ErrorFeedback.o $(OBJDIR_RELEASE)/src/other/Core.o $(OBJDIR_RELEASE)/src/gl/Window.o $(OBJDIR_RELEASE)/src/gl/VertexBuffer.o $(OBJDIR_RELEASE)/src/gl/VertexArray.o $(OBJDIR_RELEASE)/src/gl/Shader.o $(OBJDIR_RELEASE)/src/gl/Renderer.o $(OBJDIR_RELEASE)/src/gl/IndexBuffer.o $(OBJDIR_RELEASE)/src/gl/Geometry.o $(OBJDIR_RELEASE)/src/gl/Camera.o $(OBJDIR_RELEASE)/src/al/AudioCore.o $(OBJDIR_RELEASE)/src/al/Audio.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/gl/Texture.o $(OBJDIR_RELEASE)/src/other/stb_image.o $(OBJDIR_RELEASE)/src/other/dr.o $(OBJDIR_RELEASE)/src/other/FileManagement.o $(OBJDIR_RELEASE)/src/other/ErrorFeedback.o $(OBJDIR_RELEASE)/src/other/Core.o $(OBJDIR_RELEASE)/src/gl/Window.o $(OBJDIR_RELEASE)/src/gl/VertexBuffer.o $(OBJDIR_RELEASE)/src/gl/VertexArray.o $(OBJDIR_RELEASE)/src/gl/TextureAtlas.o $(OBJDIR_RELEASE)/src/gl/Shader.o $(OBJDIR_RELEASE)/src/gl/Renderer.o $(OBJDIR_RELEASE)/src/gl/IndexBuffer.o $(OBJDIR_RELEASE)/src/gl/Geometry.o $(OBJDIR_RELEASE)/src/gl/Camera.o $(OBJDIR_RELEASE)/src/al/AudioCore.o $(OBJDIR_RELEASE)/src/al/Audio.o
 
 all: debug release
 
@@ -87,6 +87,9 @@ $(OBJDIR_DEBUG)/src/gl/VertexBuffer.o: src/gl/VertexBuffer.cpp
 
 $(OBJDIR_DEBUG)/src/gl/VertexArray.o: src/gl/VertexArray.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/gl/VertexArray.cpp -o $(OBJDIR_DEBUG)/src/gl/VertexArray.o
+
+$(OBJDIR_DEBUG)/src/gl/TextureAtlas.o: src/gl/TextureAtlas.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/gl/TextureAtlas.cpp -o $(OBJDIR_DEBUG)/src/gl/TextureAtlas.o
 
 $(OBJDIR_DEBUG)/src/gl/Shader.o: src/gl/Shader.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/gl/Shader.cpp -o $(OBJDIR_DEBUG)/src/gl/Shader.o
@@ -155,6 +158,9 @@ $(OBJDIR_RELEASE)/src/gl/VertexBuffer.o: src/gl/VertexBuffer.cpp
 
 $(OBJDIR_RELEASE)/src/gl/VertexArray.o: src/gl/VertexArray.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/gl/VertexArray.cpp -o $(OBJDIR_RELEASE)/src/gl/VertexArray.o
+
+$(OBJDIR_RELEASE)/src/gl/TextureAtlas.o: src/gl/TextureAtlas.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/gl/TextureAtlas.cpp -o $(OBJDIR_RELEASE)/src/gl/TextureAtlas.o
 
 $(OBJDIR_RELEASE)/src/gl/Shader.o: src/gl/Shader.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/gl/Shader.cpp -o $(OBJDIR_RELEASE)/src/gl/Shader.o

@@ -26,6 +26,8 @@ Texture::Texture(const std::string& path, const unsigned int& slot, unsigned int
 
     if (localBuffer)
         stbi_image_free(localBuffer);
+    else
+        fprintf(stderr, "(Petroleum) WARNING: Couldn't load texture!\n");
 }
 
 Texture::Texture(unsigned long int length, const unsigned char* image, const unsigned int& slot, unsigned int minFilter, unsigned int magFilter)
@@ -65,4 +67,5 @@ Texture::~Texture()
 {
     PTGLEC(glDeleteTextures(1, &texID));
 }
+
 }

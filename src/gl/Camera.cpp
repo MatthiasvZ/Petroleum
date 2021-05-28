@@ -10,35 +10,35 @@ Camera::Camera(float x, float y, float z)
 
 }
 
-glm::mat4 Camera::update(float deltaTime, bool (*getKey)(int glfwKey), void (*getCursorPos)(double* p_X, double* p_Y))
+glm::mat4 Camera::update(float deltaTime, const Window& window)
 {
     float movSpeedH = movFacH * deltaTime;
     float movSpeedV = movFacV * deltaTime;
 
-    if (getKey(GLFW_KEY_LEFT_CONTROL))
+    if (window.getKey(GLFW_KEY_LEFT_CONTROL))
         sprinting = true;
     else
         sprinting = false;
 
-    if (getKey(GLFW_KEY_W))
+    if (window.getKey(GLFW_KEY_W))
         camPos += movSpeedH * (sprinting + 1) * camFront;
-    if (getKey(GLFW_KEY_S))
+    if (window.getKey(GLFW_KEY_S))
         camPos -= movSpeedH * (sprinting + 1) * camFront;
-    if (getKey(GLFW_KEY_A))
+    if (window.getKey(GLFW_KEY_A))
         camPos -= movSpeedH * (sprinting + 1) * glm::normalize(glm::cross(camFront, glm::vec3(0.0f, 1.0f, 0.0f)));
-    if (getKey(GLFW_KEY_D))
+    if (window.getKey(GLFW_KEY_D))
         camPos += movSpeedH * (sprinting + 1) * glm::normalize(glm::cross(camFront, glm::vec3(0.0f, 1.0f, 0.0f)));
-    if (getKey(GLFW_KEY_SPACE))
+    if (window.getKey(GLFW_KEY_SPACE))
         camPos.y += movSpeedV * (sprinting + 1);
-    if (getKey(GLFW_KEY_LEFT_SHIFT))
+    if (window.getKey(GLFW_KEY_LEFT_SHIFT))
         camPos.y -= movSpeedV * (sprinting + 1);
 
-    if (getKey(GLFW_KEY_KP_5) && !getKey(GLFW_KEY_LEFT_CONTROL))
+    if (window.getKey(GLFW_KEY_KP_5) && !window.getKey(GLFW_KEY_LEFT_CONTROL))
     {
         yaw = -90.0f;
         pitch = 0.0f;
     }
-    if (getKey(GLFW_KEY_KP_5) && getKey(GLFW_KEY_LEFT_CONTROL))
+    if (window.getKey(GLFW_KEY_KP_5) && window.getKey(GLFW_KEY_LEFT_CONTROL))
     {
         camPos.x = 1.0f;
         camPos.y = 1.0f;
@@ -46,7 +46,7 @@ glm::mat4 Camera::update(float deltaTime, bool (*getKey)(int glfwKey), void (*ge
     }
 
     double mouseX, mouseY;
-    getCursorPos(&mouseX, &mouseY);
+    window.getCursorPos(&mouseX, &mouseY);
 
     yaw += (mouseX - lastMouseX) * turnSpeed;
     pitch += (lastMouseY - mouseY) * turnSpeed;

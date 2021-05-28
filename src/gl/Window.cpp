@@ -151,7 +151,7 @@ bool Window::mouseLocked() const
     return PT::mouseLocked;
 }
 
-void Window::getCursorPos(double* p_X, double* p_Y)
+void Window::getCursorPos(double* p_X, double* p_Y) const
 {
     glfwGetCursorPos(window, p_X, p_Y);
 }

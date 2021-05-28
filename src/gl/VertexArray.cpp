@@ -4,6 +4,7 @@ namespace PT
 {
 
 VertexArray::VertexArray()
+    : vbCount(0)
 {
     PTGLEC(glGenVertexArrays(1, &vaoID));
 }
@@ -22,6 +23,7 @@ void VertexArray::addBuffer(const VertexBuffer& vbo, const VertexBufferLayout& l
                 element.normalised, layout.getStride(), (const void*)offset));
         offset += element.count*VertexBufferElement::getSizeOfType(element.type);
     }
+    ++vbCount;
     #ifdef DEBUG
     unbindArray();
     #endif // DEBUG
