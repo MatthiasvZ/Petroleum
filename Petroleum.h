@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <ctime>
+#include <array>
 
 #include <GL/glew.h>
 #define GLFW_INCLUDE_NONE
@@ -49,8 +51,8 @@
 #define PT_GREY 5
 #define PT_DARK_GREY 6
 
-#define PT_VERSION_S "0.4.93-dev"
-#define PT_VERSION   4'93 // 1.2.5 = 1'02'05
+#define PT_VERSION_S "0.4.94-dev"
+#define PT_VERSION   4'94 // 1.2.5 = 1'02'05
 
 namespace PT
 {
@@ -59,6 +61,7 @@ namespace PT
 void setDataDir(const char* directory);
 void createDataFolder(const char* directory);
 void createFolder(const char* directory);
+
 struct Config
 {
     bool fresh {true};
